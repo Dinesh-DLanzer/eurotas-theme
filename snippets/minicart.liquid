@@ -1,0 +1,47 @@
+<div class="js-bg-minicart background-overlay"></div>
+<div class="header-cart-content js-minicart-content">
+  <h3 class="minicart-title">Your cart</h3>
+  <span class="minicart-number enj-cartcount">{{cart.item_count}}</span>
+  <div class="minicart-close js-minicart-close lnr lnr-cross">
+  </div>
+  <div class="minicart-scroll enj-minicart-ajax">
+    {% if cart.item_count > 0 %}
+    <div class="minicart-scroll-content">
+        {% for item in cart.items %}
+        <ul class="minicart-item list-unstyled">
+          <li class="product-cart">
+            <a href="{{item.url}}" class="product-image product-thumb-link"><img alt="{{item.title}}" src="{{ item.image | product_img_url: 'small' }}"></a>
+
+            <div class="product-detail">
+              <h3 class="product-name"><a href="{{item.url}}">{{item.title}}</a></h3>
+              <div class="product-detail-info">
+                <span class="product-quantity">QTY: {{ item.quantity }}</span>
+                <span class="product-price"><span class="product-price-symbol"></span>{{ item.price | money }}</span>
+                <div class="product-remove float-right">
+                  <a href="/cart/change?line={{ forloop.index }}&amp;quantity=0" class="remove-product"><i class="fa fa-trash"></i></a>
+                </div>
+              </div>
+            </div>
+          </li>
+        </ul>
+        {% endfor %}
+    </div>
+    <div class="subtotal-actions">
+      <div class="subtotal">
+        <p class="total-title">{{ 'minicart.general.total_price' | t }}</p>
+        <span class="total-price"><span class="total-price-symbol"></span>{{cart.total_price | money}}</span>
+      </div>
+      <div class="actions">
+        <a class="button-viewcart" href="/cart">{{ 'minicart.general.view_cart' | t }}</a>
+        <a class="button-checkout" href="/checkout">{{ 'minicart.general.checkout' | t }}</a>
+      </div>
+    </div>
+    {% else %}
+    <div class="minicart-content">
+      <h4>No products in the cart.</h4>
+      <a class="to-cart" href="#">Start shopping<i class="lnr lnr-arrow-right"></i></a>
+      <a class=" des-cart" href="#">Our Shipping & Return Policy</a>
+    </div>
+    {% endif %}
+  </div>
+</div>

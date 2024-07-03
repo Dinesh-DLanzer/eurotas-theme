@@ -1,0 +1,173 @@
+<div class="background-overlay-mobile js-background-overlay"></div>
+<header class="menu-mobile">
+  <div class="menu">
+    <div class="menu-mobile-left">
+      <a class="menu-hamburger js-btn-menu-mobile" href="javascript:void(0)">
+        <span class="menu-mobile-close"></span>
+      </a>
+    </div>
+    <div class="header-logo text-center">
+      {% if settings.mobile_logo_svg != blank %}
+      <a href="{{shop.url}}">{{settings.mobile_logo_svg}}</a>
+      {% else %}
+      <a href="{{shop.url}}">
+        {% if settings.mobile_logo != blank %}
+        <img src="{{settings.mobile_logo|img_url:'master'}}" width="{{settings.mobile_logo_maxwidth}}" alt="logo">
+        {% else %}
+        <img src="//placehold.it/145x25" class="img-fluid" width="{{settings.mobile_logo_maxwidth}}" alt="logo">
+        {% endif %}
+      </a>
+      {% endif %}
+    </div>
+
+    <div class="menu-mobile-right d-flex align-items-center justify-content-end">
+      {% if settings.enable_hdv1_search %}
+      <div class="{{settings.mobile_search_icon}} search-mobile js-menu-mobile-search">
+      </div>
+      {% endif %}
+
+      {% if settings.enable_mobile_cart %}
+      <div class="{{settings.mobile_cart_icon }} cart-mobile js-minicart">
+        <span class="minicart-bag-number enj-cartcount">{{cart.item_count}}</span>
+      </div>
+      {% endif %}
+    </div>
+
+  </div>
+</header>
+<div class="mobile-search js-mobile-search">
+  <div class="mobile-instant-search">
+    <div class="close-mobile-search text-center">
+      <span class="ti-close js-close-mobile-search"></span>
+    </div>
+    <form action="/search">
+      <input type="hidden" name="type" value="product">
+      <input type="text" placeholder="Type to search" name="q" value="{{ search.terms | escape }}"  />
+    </form>
+  </div>
+</div>
+<div class="menu-mobile-tab">
+  <div class="box js-menu-mobile">
+    <!-- <div class="box-tab-nav d-flex">
+      <button class="text-center js-btn-menu-nav active">
+        <a class="menu-hamburger" href="javascript:void(0)">
+          <span></span>
+        </a>
+        <span class="title-menu">Menu</span>
+      </button>
+      <button class="text-center js-btn-login">
+        <div class="login-icon ti-user"><span>Login</span>
+        </div>
+      </button>
+    </div> -->
+    <div class="account-login js-account-login">
+      <div class="account-login-content">
+        <div class="login-content-wrap">
+          <div class="CustomerLoginForm customer-login d-none js-custom-login">
+            <div class="login-icon-customer ti-user">
+            </div>
+            <div class="login-form">
+              {% form 'customer_login' %}
+              {{ form.errors | default_errors }}
+              <p>
+                <input type="email" placeholder="{{ 'customer.login.email' | t }}" name="customer[email]" {% if form.email %} value="{{ form.email }}"{% endif %} />
+              </p>
+              <p>
+                {% if form.password_needed %}
+                <input type="password" placeholder="{{ 'customer.login.password' | t }}" name="customer[password]" required/>
+                {% endif %}
+              </p>
+              <p class="form-row">
+
+                {% if form.password_needed %}
+                <a href="#recover" class="lost-password RecoverPassword">{{ 'customer.login.forgot_password' | t }}</a>
+                {% endif %}
+              </p>
+              <button type="submit" class="login-button" value="{{ 'customer.login.log_in' | t }}">
+                {{ 'customer.login.log_in' | t }}
+              </button>
+              {% endform %}
+
+            </div>
+            <div class="special">
+              <span>or</span>
+            </div>
+            <div class="special-link">
+              <a href="javascript:void(0)" class="js-create-an-account">Create an account <i class="ti-arrow-right"></i></a>
+            </div>
+          </div>
+
+          <div class="RecoverPasswordForm" style="display: none;">
+            {% form 'recover_customer_password' %}
+            {{ form.errors | default_errors }}
+            {% if form.posted_successfully? %}
+            {% assign resetPassword = true %}
+            {% endif %}
+            <div class="block-login">
+              <h2 class="title-form-account">Login</h2>
+              <p>
+                <input type="email" placeholder="{{ 'customer.login.email' | t }}" name="customer[email]" {% if form.email %} value="{{ form.email }}"{% endif %} />
+              </p>
+              <p>
+                <input type="submit" class="register-button" value="{{ 'customer.login.log_in' | t }}">
+              </p>
+              <div class="forgot-password">
+                <a class="HideRecoverPasswordLink" style="cursor: pointer;" class="color">{{ 'customer.recover_password.cancel' | t }}</a>
+              </div>
+            </div>
+            {% endform %}
+          </div>
+
+
+          <div class="customer-login-register d-none js-custom-login-res">
+            <div class="login-icon-register">
+              <i class="ti-pencil-alt"></i>
+              <p class="login-des-register">register</p>
+            </div>
+            <div class="login-form-register">
+              {% form 'create_customer' %}
+              {{ form.errors | default_errors }}
+              <p>
+                <input type="text" placeholder="{{ 'customer.register.first_name' | t }}" name="customer[first_name]" {% if form.first_name %} value="{{ form.first_name }}"{% endif %} />
+              </p>
+              <p>
+                <input type="email" placeholder="{{ 'customer.register.email' | t }}" name="customer[email]" {% if form.email %} value="{{ form.email }}"{% endif %} />
+              </p>
+              <p>
+                <input type="text" name="password" placeholder="{{ 'customer.register.password' | t }}" class="input-password" required>
+              </p>
+              <button type="submit" class="login-button-register" value="{{ 'customer.register.submit' | t }}">
+                {{ 'customer.register.submit' | t }}
+              </button>
+
+              {% endform %}
+
+            </div>
+            <div class="special">
+              <span>or</span>
+            </div>
+            <div class="special-link">
+              <a href="javascript:void(0)" class="js-back-to-login">Back to login<i class="ti-arrow-right"></i></a>
+            </div>
+          </div>
+
+          {% if shop.checkout.guest_login %}
+          <hr>
+          {% form 'guest_login' %}
+          <div class="form-my-account">
+            <h2 class="title-form-account">{{ 'customer.login.guest_title' | t }}</h2>
+            <p>
+              <input type="submit" class="register-button" value="{{ 'customer.login.guest_continue' | t }}">
+            </p>
+          </div>
+
+          {% endform %}
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    {% include 'vertical-menu' %}
+  </div>
+</div>
+{% include 'minicart' %}

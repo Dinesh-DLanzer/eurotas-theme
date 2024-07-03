@@ -1,0 +1,334 @@
+<div data-section-id="{{ section.id }}" data-section-type="section-countdownt-v2" style="{% if section.settings.margin_top != blank %}margin-top: {{section.settings.margin_top}}px;{%endif%} {% if section.settings.margin_bottom != blank %}margin-bottom: {{section.settings.margin_bottom}}px;{% endif %} {% if section.settings.sections_layout == "dark" %}background: {{section.settings.sections_bg_color}};{% endif %}">
+  <div class="section-countdown-v2" style="background-image: url({% if section.settings.bg_countdown != blank %}{{section.settings.bg_countdown | img_url: 'master'}}{% else %}//placehold.it/1920x985{% endif %});">
+    <div class="container-fluid my-container">
+      <div class="countdown row">
+        <div class="col-lg-6 col-md-6">
+          <div class="countdown-image js-lookbook-countdown-v2">
+            <a href="{{section.settings.countdown_url}}" class="d-block">
+              {% if section.settings.countdown_img == blank %}
+              {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' }}
+              {% else %}
+              <img src="{{section.settings.countdown_img|img_url:'master'}}" class="img-fluid w-100" alt="Banner">
+              {% endif %}
+            </a>
+
+            {% for block in section.blocks %}
+            {% if block.type == "lookbook" %}
+            <div class="lookbook-point js-hover-lookbook-v2" data-hover="{{forloop.index}}" style="top:{{block.settings.lookbook_point_top}}%;left:{{block.settings.lookbook_point_left}}%">
+              <span></span>
+              <div class="popup-lookbook js-popup-lookbook-v2 d-xl-block d-none">
+                <h5>{{block.settings.popup_title}}</h5>
+                <p>{{block.settings.popup_desc}}</p>
+              </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+
+          </div>
+        </div>
+
+        <div class="col-lg-6 col-md-6">
+          <div class="countdown-info">
+            {% if section.settings.section_title != blank %}
+            <h2 class="section-title">{{section.settings.section_title}}</h2>
+            {% endif %}
+
+            {% if section.settings.enable_countdown %}
+            {% if section.settings.section_countdown != blank %}
+            <div class="time" data-countdown="countdown-v2" data-date="{{section.settings.section_countdown}}">
+              
+            </div>
+            {% endif %}
+            {% endif %}
+            {% if section.settings.select_product != blank %}
+            {% assign product = all_products[section.settings.select_product] %}
+            <h2>{{product.title}}</h2>
+            <div>
+              <span class="countdown-price"><ins>{{product.price | money}}</ins></span>
+              {% if product.compare_at_price !=blank %}
+              <span class="countdown-price-compare"><del>{{product.compare_at_price | money}}</del></span>
+              {% endif %}
+            </div>
+            {% assign check_imgs = 1 %}
+            {% for image in product.images %}
+            {% assign check_img = image.src | split: '.' | last | split: '?' | first %}
+            {% if check_img == 'png' %}
+            {% assign check_imgs = check_imgs | plus: 1 %}
+            {% endif %}
+            {% endfor %}
+            {% if check_imgs > 1 %}
+            <div class="js-product-countdown-v2 countdown-slide" {% if check_imgs == 4 %}data-js="3"{% else %}data-js="4"{% endif %}>
+              {% for image in product.images %}
+              {% assign check_img = image.src | split: '.' | last | split: '?' | first %}
+              {% if check_img == 'png' %}
+              <div class="slide-item">
+                <img src="{{image | img_url: "master"}}">
+              </div>
+              {% endif %}
+              {% endfor %}
+            </div>
+            {% endif %}
+            {% else %}
+            <h2>Nike Free RN 2018 iD</h2>
+            <div>
+              <span class="countdown-price"><ins>$200</ins></span>
+              <span class="countdown-price-compare"><del>$250</del></span>
+            </div>
+            {% endif %}
+
+
+
+            {% if section.settings.button_name != blank %}
+            <a class="button-name style1" href="{{section.settings.btn_url}}">{{section.settings.button_name}}</a>
+            {% endif %}
+          </div>
+
+        </div>
+
+        <div class="content-popup-lookbook js-popup-lookbook-v2 d-xl-none">
+          <div class="popup-lookbook">
+            <div class="row">
+              <div class="col-lg-6 col-sm-6 col-12">
+                <div class="countdown-image">
+                  {% if section.settings.countdown_img == blank %}
+                  {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' }}
+                  {% else %}
+                  <img src="{{section.settings.countdown_img|img_url:'master'}}" class="img-fluid" alt="Banner">
+                  {% endif %}
+
+                  {% for block in section.blocks %}
+                  {% if block.type == "lookbook" %}
+                  <div class="lookbook-point js-hover-lookbook-v2" data-hover="{{forloop.index}}" style="background: {{block.settings.bg_lookbook_pin}}; top:{{block.settings.lookbook_point_top}}%;left:{{block.settings.lookbook_point_left}}%">
+                    <span></span>
+                  </div>
+                  {% endif %}
+                  {% endfor %}
+
+                </div>
+              </div>
+              <div class="col-lg-6 col-sm-6 col-12">
+                <div class="js-popup-lb-slide-v2">
+                  {% for block in section.blocks %}
+                  {% if block.type == "lookbook" %}
+                  <div class="lookbook-content">
+                    <h5>{{block.settings.popup_title}}</h5>
+                    <p>{{block.settings.popup_desc}}</p>
+                  </div>
+                  {% endif %}
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="close-popup-lookbook js-close-popup-lookbook-v2"><i></i></div>
+          <div class="bg-overlay-popup-lookbook js-bg-overlay-popup-lookbook-v2"></div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  {% for block in section.blocks %}
+  {% if block.type == "lookbook" %}
+  .lookbook-point:after {
+    box-shadow: 0 0 4px {{block.settings.bg_lookbook_pin}};
+  }
+  {% endif %}
+  {% endfor %}
+
+</style>
+
+
+{% schema %}
+{
+  "name": "Countdown v2",
+  "class": "index-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "bg_countdown",
+      "info": "1920 x 985px recommended",
+      "label": "Background Image"
+    },
+    {
+      "type": "header",
+      "content": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "countdown_img",
+      "info": "531 x 660px recommended",
+      "label": "Image"
+    },
+    {
+      "type": "url",
+      "id": "countdown_url",
+      "label": "URL",
+      "default": "/collections/all"
+    },
+    {
+      "type": "header",
+      "content": "Countdown info"
+    },
+    {
+      "type": "text",
+      "id": "section_title",
+      "label": "Section title",
+      "default": "Deal of the week"
+    },
+    {
+      "type": "header",
+      "content": "Countdown"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_countdown",
+      "label": "Enable countdown?",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "section_countdown",
+      "info": "2019-12-12-12-12-12",
+      "label": "Countdown timer format",
+      "default": "2019-12-12-12-12-12"
+    },
+    {
+      "type": "product",
+      "id": "select_product",
+      "label": "Select Product"
+    },
+    {
+      "type": "text",
+      "id": "button_name",
+      "label": "Button name",
+      "default": "Shop now"
+    },
+    {
+      "type": "url",
+      "id": "btn_url",
+      "label": "Button URL",
+      "default": "/collections/all"
+    },
+    {
+      "type": "header",
+      "content": "Section Space"
+    },
+    {
+      "type": "text",
+      "id": "margin_top",
+      "label": "Margin Top",
+      "info": "Defined in pixels. Do not add the 'px' unit."
+    },
+    {
+      "type": "text",
+      "id": "margin_bottom",
+      "label": "Margin Bottom",
+      "info": "Defined in pixels. Do not add the 'px' unit."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "lookbook",
+      "name": "Lookbook item",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Lookbook pin"
+        },
+        {
+          "type": "color",
+          "id": "bg_lookbook_pin",
+          "label": "Box shadow color pin",
+		  "default": "#fff"
+        },
+        {
+          "type": "header",
+          "content": "Popup description"
+        },
+        {
+          "type": "text",
+          "id": "popup_title",
+          "label": "Title",
+          "default": "Welting"
+        },
+        {
+          "type": "text",
+          "id": "popup_desc",
+          "label": "Title",
+          "default": "It is a long established fact that a reader will be distracted by the readable content."
+        },
+        {
+          "type": "text",
+          "id": "lookbook_point_top",
+          "label": "Margin top",
+          "info": "Defined in %. Do not add the '%' unit."
+        },
+        {
+          "type": "text",
+          "id": "lookbook_point_left",
+          "label": "Margin left",
+          "info": "Defined in %. Do not add the '%' unit."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Countdown v2",
+      "category": "Home 2",
+      "blocks": [
+        {
+          "type": "lookbook",
+          "settings": {
+            "popup_title": "Welting",
+			"popup_desc": "It is a long established fact that a reader will be distracted by the readable content.",
+			"lookbook_point_top": "4",
+			"lookbook_point_left": "26"
+          }
+        },
+        {
+          "type": "lookbook",
+          "settings": {
+            "popup_title": "Falcon",
+			"popup_desc": "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+			"lookbook_point_top": "39",
+			"lookbook_point_left": "60"
+          }
+        },
+        {
+          "type": "lookbook",
+          "settings": {
+            "popup_title": "Spring",
+			"popup_desc": "Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit sed quia consequuntur magni dolores eos qui ratione",
+			"lookbook_point_top": "76",
+			"lookbook_point_left": "86"
+          }
+        },
+        {
+          "type": "lookbook",
+          "settings": {
+            "popup_title": "Welting",
+			"popup_desc": "It is a long established fact that a reader will be distracted by the readable content.",
+			"lookbook_point_top": "40",
+			"lookbook_point_left": "3"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

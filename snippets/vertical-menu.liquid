@@ -1,0 +1,146 @@
+<div class="vertical-box">
+
+  <div class="logo-vertical text-center d-none d-xl-block">
+    {% if settings.vertical_logo_svg != blank %}
+    <div class="logosvg" style="max-width:{{settings.vertical_logo_maxwidth}}px;">
+      <a class="d-block" href="{{shop.url}}">{{settings.vertical_logo_svg}}</a>
+    </div>
+    {% else %}
+    <a href="{{shop.url}}" class="d-block">
+      {% if settings.vertical_logo == blank %}
+      <img src="//placehold.it/133x21" width="{{settings.vertical_logo_maxwidth}}px;" alt="{{shop.name}}">
+      {% else %}
+      <img alt="{{shop.name}}" src="{{settings.vertical_logo | img_url:'master'}}" width="{{settings.vertical_logo_maxwidth}}px;" class="img-fluid">
+      {% endif %}
+    </a>
+    {% endif %}
+  </div>
+
+  <div class="socials d-none d-xl-block">
+    <ul class="d-flex list-unstyled justify-content-center mb-0">
+      {% assign social_limit = settings.social_limit %}
+      {% for i in (1..social_limit) %}
+      {% capture social_icon %}social_icon{{i}}{% endcapture %}
+      {% capture social_url %}social_url{{i}}{% endcapture %}
+      <li><a href="{{ settings[social_url] }}"><i class="{{ settings[social_icon] }}"></i></a></li> 
+      {% endfor %}
+    </ul>
+  </div>
+
+  <div class="menu-content js-menu-content">
+    {% if settings.main_menu_vertical != blank %}
+    <div class="content">
+      {% assign i=1 %}
+      {% assign main_menu = settings.main_menu_vertical %}
+      {% for link in linklists[main_menu].links %}
+      {% assign item = link.title | downcase %}
+      {% assign child_list_handle = link.title | handleize %}
+      <div class="menu-category">
+
+        {% if linklists[child_list_handle].links != blank %}
+
+        <a class="menu-link" href="#c{{i}}" class="toggle-menumobile plus-minus{{i}}" data-toggle="collapse" >
+          {{ link.title }}
+          <i class="lnr lnr-chevron-right"></i>
+
+        </a>
+        <div id="c{{i}}" class="collapse">
+          <div class="demo-wrap text-capitalize">
+            <div class="container container-fluid">
+              <div class="row drop-menu">
+                {% for childlink in linklists[child_list_handle].links %}
+                {% assign grand_child_list_handle = childlink.title | handle %}
+                {% if linklists[grand_child_list_handle].links != blank %}
+                <div class="demo-inner col-12">
+                  <h3>{{childlink.title}}</h3>
+                  <ul class="megamenu-shop list-unstyled">
+                    {% for grandchildlink in linklists[grand_child_list_handle].links %}
+                    <li><a href="{{ grandchildlink.url }}">{{ grandchildlink.title | escape }}</a></li>
+                    {% endfor %}
+                  </ul>
+
+                </div>
+                {% else %}
+                <div class="col-12">
+                  <a class="menu-link-child" href="{{childlink.url}}">{{childlink.title}}</a>
+                </div>
+                {% endif %}
+                {% endfor %}
+
+              </div>
+
+
+
+            </div>
+            {% assign i= i |plus : 1%} 
+          </div>
+        </div>
+
+
+        {% else %}
+        <div class="menu-category">
+          <a class="menu-link" href="{{ link.url }}">{{ link.title }}</a>
+        </div>      
+        {% endif %}
+      </div>
+      {% endfor %}
+      <!-- <div class="menu-category d-block d-xl-none">
+        <a href="#" class="menu-link" data-toggle="collapse">
+          <span>My Wishlist</span>
+          <i class="lnr lnr-heart"></i>
+        </a>
+      </div> -->
+      <div class="d-flex d-xl-none">
+        <div class="element-language">
+          <a href="#language" class="language text-uppercase dropdown-toggle" data-toggle="collapse">
+            <span>{{settings.language_title}}</span>
+          </a>
+          <div id="language" class="collapse">
+            <ul class="list-unstyled">
+              {% for link in linklists[settings.language_menu].links %}
+              <li><a href="{{ link.url }}">{{ link.title | escape }}</a></li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+        
+          <div class="element-currency">
+            <a id="label3" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+              <span class="selected-currency">{{settings.topbar_multi_currency_title}}</span>
+            </a>
+            <ul class="dropdown-menu" id="currencies">
+              {% assign supported = settings.supported_currencies | split: ' ' %}
+              {% for c in supported %}
+              <li><a data-currency="{{c}}">{{c}}</a></li>
+              {% endfor %}
+            </ul>
+          </div>
+        <!-- <div class="element-currency">
+          <a href="#currency" class="currency text-uppercase dropdown-toggle" data-toggle="collapse">
+            <span class="selected-currency">{{settings.topbar_multi_currency_title}}</span>
+          </a>
+          <div id="currency" class="collapse">
+            <ul class="list-unstyled">
+              {% assign supported = settings.supported_currencies | split: ' ' %}
+              {% for c in supported %}
+              <li><a data-currency="{{c}}">{{c}}</a></li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div> -->
+      </div>
+
+    </div>
+    {% endif %}
+
+    <div class="image-vertical banner-item style1 d-none d-xl-block">
+      <a href="{{settings.banner_vertical_url}}">
+        {% if settings.banner_vertical_img == blank %}
+        {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+        {% else %}
+        <img src="{{settings.banner_vertical_img | img_url: "master"}}" alt="banner-megamenu">
+        {% endif %}
+      </a>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,17 @@
+<div class="widget widget-color filter-tag">
+  <h2 class="widget-title">{{section.settings.shop_by_color_title}}</h2>
+  <ul class="list-unstyled">
+    {% assign tags = section.settings.shop_by_color_list_tags | split: ',' %}
+    
+    {% for t in tags %}
+    {% assign tag = t | strip %}
+    {% assign tag_value = tag | handleize %}
+    <li class="cat-item{% if current_tags contains tag %} current-cat{% endif %}">
+      <input type="checkbox" value="{{ tag_value | split: '|' | first }}" {% if current_tags contains tag %}checked{% endif %}/>
+      <a href="javascript:void(0)" title="{{tag}}" style="background:{{tag}}"></a>
+    </li>
+    {% endfor %}
+    
+  </ul>
+  <!-- /.product-categories -->
+</div>

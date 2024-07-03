@@ -1,0 +1,144 @@
+<footer class="footer-v1" style="margin-top:{{settings.margin_top_footer}}px">
+  {% if settings.enable_fv1_top %}
+  <div class="footer-top {% if settings.enable_border_bottom %}border-bot{% endif %}" style="background:{{settings.bg_footer_top}};">
+    <div class="container-fluid my-container">
+      <div class="row">
+
+        {% if settings.enable_fv1_c1 %}
+        <div class="footer-column-1 col-xl-3 col-lg-4 col-sm-6 col-12 order-sm-4 order-md-1">
+          <h3 style="color: {{settings.main_color1_fv1}}">{{settings.fv1_c1_title}}</h3>
+          <div class="footer-address" style="color: {{settings.main_color2_fv1}}">
+            <span class="{{settings.fv1_c1_icon1}}">
+            </span>
+            <p class="text-capitalize mb-0">
+              {{settings.fv1_c1_content1}}
+            </p>
+          </div>
+          <div class="footer-tel" style="color: {{settings.main_color2_fv1}}">
+            <span class="{{settings.fv1_c1_icon2}}">
+            </span>
+            <p class="text-capitalize mb-0">
+              {{settings.fv1_c1_content2}}
+            </p>
+          </div>
+          <div class="footer-email" style="color: {{settings.main_color2_fv1}}">
+            <span class="{{settings.fv1_c1_icon3}}">
+            </span>
+            <p class="mb-0">
+              {{settings.fv1_c1_content3}}
+            </p>
+          </div>
+          <div class="footer-clock" style="color: {{settings.main_color2_fv1}}">
+            <span class="{{settings.fv1_c1_icon4}}">
+            </span>
+            <p class="mb-0">
+              {{settings.fv1_c1_content4}}
+            </p>
+          </div>
+
+          {% if settings.enable_fv1_payment %}
+          <div class="payment-method">
+            <a href="{{settings.fv1_payment_url}}" class="images">
+              {% if settings.fv1_payment_img == blank %}
+              <img src="//placehold.it/222x21" alt="payment">
+              {% else %}
+              <img src="{{settings.fv1_payment_img | img_url:'master'}}" class="img-fluid" alt="payment">
+              {% endif %}
+            </a>
+          </div>
+          {% endif %}
+        </div>
+        {% endif %}
+
+        {% if settings.enable_fv1_c2 %}
+        <div class="footer-column-2 col-xl-3 col-lg-2 col-sm-6 col-12 order-sm-1 order-md-2">
+
+          <h3 style="color:{{settings.main_color1_fv1}}">{{settings.fv1_c2_title}}</h3>
+          <ul class="list-unstyled mb-0">
+
+            {% for link in linklists[settings.fv1_c2_menu].links %}
+            <li><a title="{{ link.title }}" style="color:{{settings.main_color2_fv1}}" href="{{ link.url }}">{{ link.title }}</a></li>
+
+            {% endfor %}
+          </ul>
+
+        </div>
+        {% endif %}
+
+        {% if settings.enable_fv1_c3 %}
+        <div class="footer-column-3 col-xl-3 col-lg-3 col-sm-6 col-12 order-sm-2 order-md-3">
+
+          <h3 style="color:{{settings.main_color1_fv1}}">{{settings.fv1_c3_title}}</h3>
+          <ul class="list-unstyled mb-0">
+
+            {% for link in linklists[settings.fv1_c3_menu].links %}
+            <li><a title="{{ link.title }}" style="color:{{settings.main_color2_fv1}}" href="{{ link.url }}">{{ link.title }}</a></li>
+
+            {% endfor %}
+          </ul>
+
+        </div>
+        {% endif %}
+
+        {% if settings.enable_fv1_c4_style1 %}
+        <div class="footer-column-4 col-xl-3 col-lg-3 col-sm-6 col-12 order-sm-3 order-md-4">
+
+          <h3 style="color:{{settings.main_color1_fv1}}">{{settings.fv1_c4_title}}</h3>
+          <ul class="list-unstyled mb-0">
+
+            {% for link in linklists[settings.fv1_c4_menu].links %}
+            <li><a title="{{ link.title }}" style="color:{{settings.main_color2_fv1}}" href="{{ link.url }}">{{ link.title }}</a></li>
+
+            {% endfor %}
+          </ul>
+
+        </div>
+        {% endif %}
+
+        {% if settings.enable_fv1_c4_style2 %}
+        <div class="footer-column-4 banner-item2 col-xl-3 col-lg-3 col-sm-6 col-12 order-sm-4 order-md-4">
+          <a href="{{settings.banner_url}}" class="d-block">
+            {% if settings.banner_img == blank %}
+            <img src="//placehold.it/545x590" class="img-fluid w-100" alt="Banner">
+            {% else %}
+            <img src="{{settings.banner_img|img_url:'master'}}" class="img-fluid w-100" alt="Banner">
+            {% endif %}
+          </a>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+
+  </div>
+  {% endif %}
+
+  {% if settings.enable_fv2_bottom %}
+  <div class="footer-bottom text-capitalize text-center" style="background:{{settings.bg_footer_bottom}};">
+    <div class="container-fluid my-container">
+      <div class="row">
+        <div class="col-md-6 col-12 text-md-left">
+          {% if settings.fv1_c1_bottom_copyright !=blank %}
+          <p class="desc mb-0" style="color:{{settings.main_color3_fv1}}" class="mb-0">{{settings.fv1_c1_bottom_copyright}}</p>
+          {% else %}
+          <p class="desc mb-0" style="color:{{settings.main_color3_fv1}}">Copyright &copy; {{ 'now' | date: "%Y" }} by <a style="color:{{settings.main_color3_fv1}}" href="http://engotheme.com" title="EngoTheme" target="_blank">Engo Themes</a> All Rights Reserved
+          </p>
+          {% endif %}
+        </div>
+        <div class="socials col-md-6 col-12 text-md-right">
+          <span style="color:{{settings.main_color3_fv1}}">{{settings.fv1_c2_social_title}}</span>
+          <a style="color:{{settings.main_color3_fv1}}" href="{{settings.fv1_c2_sosial_url1}}" target="_blank" class="socials-item {{settings.fv1_c2_social_icon1}}">
+          </a>
+          <a style="color:{{settings.main_color3_fv1}}" href="{{settings.fv1_c2_sosial_url2}}" target="_blank" class="socials-item {{settings.fv1_c2_social_icon2}}">
+          </a>
+          <a style="color:{{settings.main_color3_fv1}}" href="{{settings.fv1_c2_sosial_url3}}" target="_blank" class="socials-item {{settings.fv1_c2_social_icon3}}">
+          </a>
+          <a style="color:{{settings.main_color3_fv1}}" href="{{settings.fv1_c2_sosial_url4}}" target="_blank" class="socials-item {{settings.fv1_c2_social_icon4}}">
+          </a>
+          <a style="color:{{settings.main_color3_fv1}}" href="{{settings.fv1_c2_sosial_url5}}" target="_blank" class="socials-item {{settings.fv1_c2_social_icon5}}">
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+</footer>

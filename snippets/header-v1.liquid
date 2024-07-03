@@ -1,0 +1,165 @@
+<header id="header" class="header-v1 js-header {% if settings.hdv1_enable_absolute %}{% if template contains '404' or template contains 'customers/login' or template contains 'customers/addresses' or template contains 'customers/account' or template contains 'customers/activate_account' or template contains 'customers/order' or template contains 'customers/register' or template contains 'customers/reset_password' or template contains 'search' %}{% else %}header-absolute{% endif %}{% endif %}">
+  <div class="container-fluid my-container ">
+    <div class="row">
+      <div class="col-xl-5">
+        <div class="header-left d-flex align">
+          <a href="#" class="d-inline-flex icon-pushmenu js-btn-pushmenu">
+            {% if settings.icon_pushmenu == blank %}
+            <svg width="16" height="11" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 66 41" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve">
+              <g>
+                <line class="st0" x1="1.5" y1="1.5" x2="64.5" y2="1.5"></line>
+                <line class="st0" x1="1.5" y1="20.5" x2="64.5" y2="20.5"></line>
+                <line class="st0" x1="1.5" y1="39.5" x2="64.5" y2="39.5"></line>
+              </g>
+            </svg>
+            {% else %}
+            <i class="{{ settings.icon_pushmenu }}"></i>
+            {% endif %}
+            MENU
+          </a>
+          <div class="language-currency d-flex">
+            <div class="element-language">
+              <a id="label2" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                <span>{{settings.language_title}}</span>
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="label2">
+                {% for link in linklists[settings.language_menu].links %}
+                <li><a href="{{ link.url }}">{{ link.title | escape }}</a></li>
+                {% endfor %}
+              </ul>
+            </div>
+            <div class="element-currency">
+              <a id="label3" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                <span class="selected-currency">{{settings.topbar_multi_currency_title}}</span>
+              </a>
+              <ul class="dropdown-menu" id="currencies">
+                {% assign supported = settings.supported_currencies | split: ' ' %}
+                {% for c in supported %}
+                <li><a data-currency="{{c}}">{{c}}</a></li>
+                {% endfor %}
+              </ul>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div class="col-xl-2 text-center">
+        {% if settings.hdv1_logo_svg != blank %}
+        <div class="logosvg" style="max-width:{{settings.hdv1_logo_maxwidth}}px;">
+          <a class="d-block" href="{{shop.url}}">{{settings.hdv1_logo_svg}}</a>
+        </div>
+        {% else %}
+        <a href="{{shop.url}}" class="d-block">
+          {% if settings.hdv1_logo == blank %}
+          <img src="//placehold.it/133x21" width="{{settings.hdv1_logo_maxwidth}}px;" alt="{{shop.name}}">
+          {% else %}
+          <img alt="{{shop.name}}" src="{{settings.hdv1_logo | img_url:'master'}}" width="{{settings.hdv1_logo_maxwidth}}px;" class="img-fluid">
+          {% endif %}
+        </a>
+        {% endif %}
+      </div>
+      <div class="col-xl-5 text-right">
+        <div class="header-right d-flex justify-content-end">
+          <a href="javascript:void(0)" class="btn-search js-search">
+            {% if settings.icon_search == blank %}
+            <i class="lnr lnr-magnifier"></i>
+            {% else %}
+            <i class="{{ settings.icon_search }}"></i>
+            {% endif %}
+          </a>
+
+          {% if customer %}
+          {% if settings.style_customer == "icon" %}
+          <a href="javascript:void(0)" class="btn-login-icon js-popup-login">
+            {% if settings.icon_login == blank %}
+            <i class="lnr lnr-user"></i>
+            {% else %}
+            <i class="{{ settings.icon_login }}"></i>
+            {% endif %}
+          </a>
+          {% else %}
+          <a href="/account/logout" class="btn-logout js-popup-login">
+            {{ settings.text_icon_logout}}
+            <i class="fa fa-caret-down f-10 e-arrow"></i>
+            {% endif %}
+          </a>
+          {% else %}
+          {% if settings.style_customer == "icon" %}
+            <!--Pop removed & URL added  -->
+          <a href="/account" class="btn-login-icon">
+            {% if settings.icon_login == blank %}
+            <i class="lnr lnr-user"></i>
+            {% else %}
+            <i class="{{ settings.icon_login }}"></i>
+            {% endif %}
+          </a>
+            <!-- Original Pop -->
+          <!-- <a href="javascript:void(0)" class="btn-login-icon js-popup-login">
+            {% if settings.icon_login == blank %}
+            <i class="lnr lnr-user"></i>
+            {% else %}
+            <i class="{{ settings.icon_login }}"></i>
+            {% endif %}
+          </a> -->
+          {% else %}
+          <a href="javascript:void(0)" class="btn-login js-popup-login">
+            {{ settings.text_icon_login}}
+            <i class="fa fa-caret-down f-10 e-arrow"></i>
+          </a>
+          {% endif %}
+          {% endif %}
+
+          <a href="javascript:void(0)" class="btn-cart text-center js-minicart">
+            {% if settings.icon_cart == blank %}
+            <i class="lnr lnr-cart"></i>
+            {% else %}
+            <i class="{{ settings.icon_cart }}"></i>
+            {% endif %}
+            <span class="minicart-bag-number enj-cartcount">{{ cart.item_count }}</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+<div class="background-overlay js-bg-overlay-vertical"></div>
+<div class="vertical-tab js-vertical-tab d-none d-xl-block" style="background-image: url({% if settings.bg_vertical != blank %}{{settings.bg_vertical|img_url:'master'}}{% else %}//placehold.it/545x980{% endif %});">
+  {% include 'vertical-menu' %}
+  <div class="close-vertical js-close-vertical">
+    <span>Close</span>
+  </div>
+</div>
+
+<div class="search-box js-search-box">
+  <div class="modal-title">
+    <h4>Search</h4>
+  </div>
+  <span class="close-search lnr lnr-cross js-close-search"></span>
+  <div class="input-group">
+    <form action="/search">
+      <input type="hidden" name="type" value="product">
+      <input class="form-control" type="text" placeholder="Type to search" name="q" value="{{ search.terms | escape }}"  />
+      <button type="submit" value="">
+        {% if settings.icon_search == blank %}
+        <i class="lnr lnr-magnifier"></i>
+        {% else %}
+        <i class="{{ settings.icon_search }}"></i>
+        {% endif %}
+      </button>
+    </form>
+  </div>
+</div>
+<div class="background-overlay-search js-bg-overlay-search"></div>
+
+<style>
+  .header-v1 .header-left .icon-pushmenu, .header-v1 .language-currency .element-language .dropdown-toggle,
+  .header-v1 .language-currency .element-currency .dropdown-toggle, .header-v1 .header-right .btn-search, .header-v1 .header-right .btn-login, .header-v1 .header-right .btn-login,
+  .header-v1 .header-right .btn-logout-icon, .header-v1 .header-right .btn-login-icon, .header-v1 .header-right .btn-cart {
+    color: {{settings.hdv1_color_text}};
+  }
+  .header-v1 .header-left .icon-pushmenu:hover, .header-v1 .language-currency .element-language .dropdown-toggle:hover,
+  .header-v1 .language-currency .element-currency .dropdown-toggle:hover, .header-v1 .header-right .btn-search:hover, .header-v1 .header-right .btn-login:hover,
+  .header-v1 .header-right .btn-logout:hover, .header-v1 .header-right .btn-logout-icon:hover, .header-v1 .header-right .btn-login-icon:hover, .header-v1 .header-right .btn-cart:hover {
+    color: {{settings.hdv1_color_text_hover}};
+  }
+</style>

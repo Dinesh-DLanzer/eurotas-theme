@@ -1,0 +1,32 @@
+<!-- /templates/404.liquid -->
+<section class="page-404">
+<div class="container-fluid my-container">
+  {% include 'breadcrumb' %}
+  
+  {% if settings.bg_img != blank %}
+  <div class="pd-banner">
+    <a href="{{settings.bg_url}}" class="effect_img2">
+      <img src="{{settings.bg_img|img_url:'master'}}" class="img-reponsive" alt="">
+    </a> 
+  </div>
+  {% endif %}
+
+  <div class="error-page text-center">
+    {% if settings.error_img != blank %}
+    <div class="error-img mar-bottom-80">
+      <img src="{{settings.error_img|img_url:'master'}}" alt="">
+    </div>
+    {% endif %}
+    <h3 class="error-title">{{settings.error_title}}</h3>
+    <form method="get" class="searchform full" action="/search" role="search" style="position: relative;">
+      <input type="hidden" name="type" value="product">
+      <input type="text" name="q" class="form-control" placeholder="Type to search..." autocomplete="off">
+      <span class="input-group-btn">
+        <button type="submit" class="button_search"><i class="lnr lnr-magnifier"></i></button>
+      </span>
+      <ul class="search-results hidden-xs hidden-sm" style="position: absolute; left: 0px; top: 100%; margin-top: 18px; display: none;"></ul>
+    </form>
+    <a href="/" class="btn-back">{{settings.error_btn_name}}</a>
+  </div>
+</div>
+</section>

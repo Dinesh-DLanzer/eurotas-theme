@@ -1,0 +1,24 @@
+{% if section.settings.enable_featured_product %}
+<div class="featured-product">
+  <h2>{{section.settings.featured_product_title}}</h2>
+
+  <div>
+    <div class="row pb-lg-0">
+      {% assign limit = section.settings.products_limit %}
+      {% if section.settings.select_collection != blank %}
+      {% for product in collections[section.settings.select_collection].products limit: limit %}
+      <div class="col-md-3 col-sm-6 p-0">
+        {% include 'product-item-v1' %}
+      </div>
+      {% endfor %}
+      {% else %}
+      {% for i in (1..8) %}
+      <div class="col-md-3 col-sm-6 p-0">
+        {% include 'empty-product-item-v1' %}
+      </div>
+      {% endfor %}
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endif %}

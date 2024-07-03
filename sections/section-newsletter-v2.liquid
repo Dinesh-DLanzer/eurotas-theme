@@ -1,0 +1,147 @@
+<div data-section-id="{{ section.id }}" data-section-type="section-newsletter-v2" style="{% if section.settings.margin_top != blank %}margin-top: {{section.settings.margin_top}}px;{%endif%} {% if section.settings.margin_bottom != blank %}margin-bottom: {{section.settings.margin_bottom}}px;{% endif %} {% if section.settings.sections_layout == "dark" %}background: {{section.settings.sections_bg_color}};{% endif %}">
+  <div class="section-newsletter-v2" style="background-image: url({% if section.settings.newsletter_img != blank %}{{section.settings.newsletter_img|img_url:'master'}}{% else %}//placehold.it/1920x580{% endif %});">
+    <div class="container-fluid my-container">
+      <div class="newsletter text-center">
+        <div class="newsletter-info">
+          {% if section.settings.section_title != blank %}
+          <h2>{{section.settings.section_title}}</h2>
+          {% endif %}
+
+          {% if section.settings.section_content != blank %}
+          <p>{{section.settings.section_content}}</p>
+          {% endif %}
+
+        </div>
+
+        {% if settings.newsletter_form_action != blank %}
+        {% assign form_action = settings.newsletter_form_action %}
+        {% else %}
+        {% assign form_action = '#' %}
+        {% endif %}
+
+        <form action="{{ form_action }}" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" target="_blank"  class="d-inline-flex">
+          <input  class="form-control" type="email" value="{% if customer %}{{ customer.email }}{% endif %}" placeholder="{{section.settings.placeholder_input}}" name="EMAIL" id="mail" aria-label="{{ 'general.newsletter_form.newsletter_email' | t }}" autocorrect="off" autocapitalize="off">
+          <div class="form-submit">
+            <input type="submit" class="btn-newsletter"  name="subscribe" id="subscribe" value="{{section.settings.newsletter_btn_name}}">
+          </div>
+
+        </form>
+      </div>
+      <div class="video">
+        <div class="box-video">
+          <a data-fancybox href="{{ section.settings.section_video_url }}">              
+            {% if section.settings.video_bg != blank %}
+            <img src="{{section.settings.video_bg|img_url:'master'}}" class="img-fluid w-100" alt="Image">
+            {% else %}
+            <img src="//placehold.it/1570X800" class="img-fluid">
+            {% endif %}
+            <i class="ti-control-play"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% schema %}
+{
+  "name": "Newsletter v2",
+  "class": "index-section",
+  "settings": [
+	{
+	  "type": "header",
+	  "content": "Banner Image"
+	},
+        {
+          "type": "image_picker",
+          "id": "newsletter_img",
+          "info": "1920 x 580px recommended",
+          "label": "Background Image"
+        },
+	{
+	  "type": "header",
+	  "content": "Title"
+	},
+    {
+      "type": "text",
+      "id": "section_title",
+      "label": "Title",
+      "default": "Newsletter"
+    },
+	{
+	  "type": "header",
+	  "content": "Content"
+	},
+    {
+      "type": "text",
+      "id": "section_content",
+      "label": "Content",
+      "default": "Enter your email address for our mailing list to keep your self update."
+    },
+	{
+	  "type": "header",
+	  "content": "Form"
+	},
+    {
+      "type": "text",
+      "id": "placeholder_input",
+      "label": "Placeholder input",
+      "default": "Enter your email.."
+    },
+    {
+      "type": "text",
+      "id": "newsletter_btn_name",
+      "label": "Button name",
+      "default": "Subscribe"
+    },
+    {
+      "type": "header",
+      "content": "Background Video"
+    },
+    {
+      "type": "image_picker",
+      "id": "video_bg",
+      "info": "1570 x 800px recommended",
+      "label": "Background Image"
+    },
+    {
+      "type": "header",
+      "content": "Video"
+    },
+    {
+      "type": "url",
+      "id": "section_video_url",
+      "label": "URL Video",
+      "info": "[Upload video .mp4 in here](/admin/settings/files)"
+    },
+    {
+      "type": "header",
+      "content": "Section Space"
+    },
+    {
+      "type": "text",
+      "id": "margin_top",
+      "label": "Margin Top",
+      "info": "Defined in pixels. Do not add the 'px' unit."
+    },
+    {
+      "type": "text",
+      "id": "margin_bottom",
+      "label": "Margin Bottom",
+      "info": "Defined in pixels. Do not add the 'px' unit."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Newsletter v2",
+      "category": "Home 4"
+    }
+  ]
+}
+{% endschema %}
+
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

@@ -1,0 +1,472 @@
+<div  class="aboutus">
+  <div class="breadcrumb-title text-center">
+    <div class="section-title">
+      {% if section.settings.aboutus_title != blank %}
+      <h2>{{section.settings.aboutus_title}}</h2>
+      {% endif %}
+    </div>
+      {% include 'breadcrumb' %}
+  </div>
+  <div class="aboutus-image">
+    <a href= "{{section.settings.aboutus_url}}" class="d-block">
+      {% if section.settings.aboutus_img == blank %}
+      <img src="//placehold.it/1740x750" class="img-fluid w-100" alt="">
+      {% else%}
+      <img src="{{section.settings.aboutus_img|img_url:'master'}}" class="img-fluid w-100" alt="About Us">
+      {% endif%}
+    </a>
+  </div>
+  {% if section.settings.enable_s_info %}
+  <div class="container-fluid my-container">
+  <div class="aboutus-info row">
+    <div class="info-title col-12 col-lg-6">
+      {% if section.settings.sub_info_title != blank %}
+      <p class="sub-info-title">{{section.settings.sub_info_title}}</p>
+      {% endif %}
+
+      {% if section.settings.info_title != blank %}
+      <h2>{{section.settings.info_title}}</h2>
+      {% endif %}
+      
+      {% if section.settings.info_desc1 != blank %}
+      <span>{{section.settings.info_desc1}}</span>
+      {% endif %}
+
+    </div>
+    <div class="info-right col-12 col-lg-6">
+      {% if section.settings.info_desc2 != blank %}
+      <p class="info-right-desc info-right-desc1">{{section.settings.info_desc2}}</p>
+      {% endif %}
+
+      {% if section.settings.info_desc3 != blank %}
+      <p class="info-right-desc info-right-desc2">{{section.settings.info_desc3}}</p>
+      {% endif %}
+      
+      {% if section.settings.sign_img != blank %}
+      <img src="{{section.settings.sign_img| img_url:'master'}}">
+      {% else %}
+      <p>{{section.settings.sign_text}}</p>
+      {% endif %}
+
+      <p class="about-author text-uppercase"><span>{{section.settings.aboutus_author}}</span> - {{section.settings.position}}</p>
+    </div>
+  </div>
+  </div>
+  {% endif %}
+</div>
+
+{% if section.settings.enable_section_video != blank %}
+<div class="video-aboutus">
+  <div class="container-fluid my-container">
+  <div class="box-video">
+    <a data-fancybox href="{{ section.settings.section_video_url }}">              
+      {% if section.settings.video_bg != blank %}
+      <img src="{{section.settings.video_bg|img_url:'master'}}" class="img-fluid w-100" alt="Image">
+      {% else %}
+      <img src="//placehold.it/1921x700" class="img-fluid">
+      {% endif %}
+      <i class="ti-control-play"></i>
+    </a>
+  </div>
+</div>
+</div>
+{% endif %}
+
+{% if section.settings.enable_section_service!= blank %}
+<div class="service-page">
+  <div class="container-fluid my-container">
+    <div class="service-content row">
+      <div class="col-xl-3 col-lg-6 col-sm-6 col-12">
+        <div class="service">
+          <a href="{{section.settings.ser_url1}}" class="{{section.settings.ser_icon1}}">
+          </a>
+          <div class="service-info">
+            <h4 class="mb-0 text-capitilaze">{{section.settings.ser_title1}}</h4>
+            <p class="mb-0">{{section.settings.ser_content1}}</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-3 col-lg-6 col-sm-6 col-12">
+        <div class="service">
+          <a href="{{section.settings.ser_url2}}" class="{{section.settings.ser_icon2}}">
+          </a>
+          <div class="service-info">
+            <h4 class="mb-0 text-capitilaze">{{section.settings.ser_title2}}</h4>
+            <p class="mb-0">{{section.settings.ser_content2}}</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-3 col-lg-6 col-sm-6 col-12">
+        <div class="service">
+          <a href="{{section.settings.ser_url3}}" class="{{section.settings.ser_icon3}}">
+          </a>
+          <div class="service-info">
+            <h4 class="mb-0 text-capitilaze">{{section.settings.ser_title3}}</h4>
+            <p class="mb-0">{{section.settings.ser_content3}}</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-3 col-lg-6 col-sm-6 col-12">
+        <div class="service">
+          <a href="{{section.settings.ser_url4}}" class="{{section.settings.ser_icon4}}">
+          </a>
+          <div class="service-info">
+            <h4 class="mb-0 text-capitilaze">{{section.settings.ser_title4}}</h4>
+            <p class="mb-0">{{section.settings.ser_content4}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}
+
+<div class="testimonial-aboutus">
+  <div class="container-fluid my-container">
+    <h2 class="section-title text-center title-line-bottom">{{section.settings.testimonial_title}}</h2>
+    <div class="row js-testimonial-aboutus">
+      {% if section.blocks.size > 0 %}
+      {% for block in section.blocks %}
+      {% if block.type == "testimonial" %}
+      <div class="col-12">
+        <div class="testimonial">
+          <div class="testimonial-image">
+            <a href= "{{block.settings.testimonial_url}}" class="d-block">
+              {% if block.settings.testimonial_img == blank %}
+              <img src="//placehold.it/370x401" class="img-fluid w-100" alt="">
+              {% else%}
+              <img src="{{block.settings.testimonial_img|img_url:'master'}}" class="img-fluid w-100" alt="Testimonial">
+              {% endif%}
+            </a>
+          </div>
+          <div class="testimonial-info">
+            <h4>{{block.settings.block_name}}</h4>
+            <p>{{block.settings.block_content}}</p>
+          </div>
+        </div>
+      </div>
+      {% endif %}
+      {% endfor %}
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "About Us page",
+  "class": "index-section",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "aboutus_img",
+      "info": "1740 x 750px recommended",
+      "label": "About Us Image"
+    },
+    {
+      "type": "url",
+      "id": "aboutus_url",
+      "label": "Aboutus URL",
+      "default": "/collections/all"
+    },
+    {
+      "type": "header",
+      "content": "Title"
+    },
+    {
+      "type": "text",
+      "id": "aboutus_title",
+      "label": "Title",
+      "default": "About Us"
+    },
+    {
+      "type": "header",
+      "content": "Info Aboutus"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_s_info",
+      "label": "Enable?",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "sub_info_title",
+      "label": "Sub info title",
+      "default": "History Since 2019"
+    },
+    {
+      "type": "text",
+      "id": "info_title",
+      "label": "Info title",
+      "default": "Welcome to Eurotas Shop Amazing Shoes.."
+    },
+    {
+      "type": "textarea",
+      "id": "info_desc1",
+      "label": "Description",
+      "default": "Maecenas sed diam eget risus varius blandit sit amet non magna. Integer posuere erat a ante venenatis dapibus posuere velit aliquet."
+    },
+    {
+      "type": "textarea",
+      "id": "info_desc2",
+      "label": "Description",
+      "default": "Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Cras mattis consectetur purus sit amet fermentum. Sed posuere consectetur est at lobortis. Nullam id dolor id nibh ultricies vehicula ut id elit."
+    },
+    {
+      "type": "textarea",
+      "id": "info_desc3",
+      "label": "Description",
+      "default": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium."
+    },
+    {
+      "type": "image_picker",
+      "id": "sign_img",
+      "label": "Sign Image"
+    },
+    {
+      "type": "text",
+      "id": "sign_text",
+      "label": "Sign"
+    },
+    {
+      "type": "text",
+      "id": "aboutus_author",
+      "label": "Aboutus author",
+      "default": "pr. Megan"
+    },
+    {
+      "type": "text",
+      "id": "position",
+      "label": "Position",
+      "default": "ceo Eurotas"
+    },
+    {
+      "type": "header",
+      "content": "Video"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_section_video",
+      "label": "Enable?",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Background Video"
+    },
+    {
+      "type": "image_picker",
+      "id": "video_bg",
+      "info": "1920 x 700px recommended",
+      "label": "Background Image"
+    },
+    {
+      "type": "header",
+      "content": "Video link"
+    },
+    {
+      "type": "url",
+      "id": "section_video_url",
+      "label": "URL Video",
+      "info": "[Upload video .mp4 in here](/admin/settings/files)"
+    },
+    {
+      "type": "header",
+      "content": "Service box"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_section_service",
+      "label": "Enable?",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "ser_icon1",
+      "label": "Icon 1",
+      "info": "[Get icon here](https://aalmiray.github.io/ikonli/cheat-sheet-themify.html)",
+      "default": "ti-truck"
+    },
+    {
+      "type": "url",
+      "id": "ser_url1",
+      "label": "URL 1",
+      "default": "/collections/all"
+    },
+    {
+      "type": "text",
+      "id": "ser_title1",
+      "label": "Title 1",
+      "default": "Free shipping"
+    },
+    {
+      "type": "text",
+      "id": "ser_content1",
+      "label": "Content 1",
+      "default": "Free shipping on all UK order"
+    },
+    {
+      "type": "text",
+      "id": "ser_icon2",
+      "label": "Icon 2",
+      "info": "[Get icon here](https://aalmiray.github.io/ikonli/cheat-sheet-themify.html)",
+      "default": "ti-reload"
+    },
+    {
+      "type": "url",
+      "id": "ser_url2",
+      "label": "URL 2",
+      "default": "/collections/all"
+    },
+    {
+      "type": "text",
+      "id": "ser_title2",
+      "label": "Title 2",
+      "default": "Valuable Gifts"
+    },
+    {
+      "type": "text",
+      "id": "ser_content2",
+      "label": "Content 2",
+      "default": "Free gift after every 10 order"
+    },
+    {
+      "type": "text",
+      "id": "ser_icon3",
+      "label": "Icon 3",
+      "info": "[Get icon here](https://aalmiray.github.io/ikonli/cheat-sheet-themify.html)",
+      "default": "ti-alarm-clock"
+    },
+    {
+      "type": "url",
+      "id": "ser_url3",
+      "label": "URL 3",
+      "default": "/collections/all"
+    },
+    {
+      "type": "text",
+      "id": "ser_title3",
+      "label": "Title 3",
+      "default": "All Day Support"
+    },
+    {
+      "type": "text",
+      "id": "ser_content3",
+      "label": "Content 3",
+      "default": "Call us for free: +01 234 567 89"
+    },
+    {
+      "type": "text",
+      "id": "ser_icon4",
+      "label": "Icon 4",
+      "info": "[Get icon here](https://aalmiray.github.io/ikonli/cheat-sheet-themify.html)",
+      "default": "icon-ecommerce-sale"
+    },
+    {
+      "type": "url",
+      "id": "ser_url4",
+      "label": "URL 4",
+      "default": "/collections/all"
+    },
+    {
+      "type": "text",
+      "id": "ser_title4",
+      "label": "Title 4",
+      "default": "Seasonal Sale"
+    },
+    {
+      "type": "text",
+      "id": "ser_content4",
+      "label": "Content 4",
+      "default": "Discounts up to 50% on all"
+    },
+    {
+      "type": "header",
+      "content": "Testimonial"
+    },
+    {
+      "type": "text",
+      "id": "testimonial_title",
+      "label": "Title",
+      "default": "Our teams"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "testimonial",
+      "name": "Testimonial",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "testimonial_img",
+          "info": "370 x 401px recommended",
+          "label": "Image"
+        },
+        {
+          "type": "url",
+          "id": "testimonial_url",
+          "label": "URL ",
+          "default": "/collections/all"
+        },
+        {
+          "type": "text",
+          "id": "block_name",
+          "label": "Name ",
+          "default": "Robert Smith"
+        },
+        {
+          "type": "text",
+          "id": "block_content",
+          "label": "Content ",
+          "default": "Director"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "About Us page",
+      "blocks": [
+        {
+          "type": "testimonial",
+          "settings": {
+            
+          }
+        },
+        {
+          "type": "testimonial",
+          "settings": {
+            
+          }
+        },
+        {
+          "type": "testimonial",
+          "settings": {
+            
+          }
+        },
+        {
+          "type": "testimonial",
+          "settings": {
+            
+          }
+        },
+        {
+          "type": "testimonial",
+          "settings": {
+            
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

@@ -1,0 +1,132 @@
+<nav class="navbar navbar-expand-lg">
+  <div class="collapse navbar-collapse" id="navbarsupportedcontent">
+
+    <ul class="navbar-nav position-relative">
+      {% assign main_menu = section.settings.main_menu_store %}
+      {% for link in linklists[main_menu].links %}
+
+      {% assign item = link.title | downcase %}
+      {% assign child_list_handle = link.title | handleize %}
+
+      {% capture megamenu_1 %}megamenu_s1_parent{% endcapture %}
+      {% capture megamenu_2 %}megamenu_s2_parent{% endcapture %}
+      {% capture megamenu_3 %}megamenu_s3_parent{% endcapture %}
+      {% capture megamenu_4 %}megamenu_s4_parent{% endcapture %}
+      {% capture megamenu_5 %}megamenu_s5_parent{% endcapture %}
+      {% capture megamenu_6 %}megamenu_s6_parent{% endcapture %}
+
+
+
+      {% if settings[megamenu_1] == item or settings[megamenu_2] == item  or settings[megamenu_3] == item or settings[megamenu_4] == item or settings[megamenu_5] == item or settings[megamenu_6] == item %}
+      {% for i in (1..6) %}
+      {% capture megamenu %}megamenu_s{{i}}_parent{% endcapture %}
+
+      {% capture _mega_style_select %}ms{{i}}_select{% endcapture %}
+      {% capture _enable_mega_lcol %}enable_ms{{i}}_lc{% endcapture %}
+      {% capture _mega_lcol_img_up %}ms{{i}}_lc_img{% endcapture %}
+      {% capture _mega_lcol_img_url %}ms{{i}}_lc_img_url{% endcapture %}
+
+      {% capture _mega_lcol_title %}ms{{i}}_lc_title{% endcapture %}
+      {% capture _mega_lcol_content %}ms{{i}}_lc_content{% endcapture %}
+      {% capture _mega_lcol_btn_name %}ms{{i}}_lc_btn_name{% endcapture %}
+
+      {% if settings[megamenu] == item %}
+      <li class="nav-item">
+        <a class="nav-link" href="{{ link.url }}">
+          <span>{{ link.title }}</span>
+          <i class="fa fa-angle-right"></i>
+        </a>
+        <div class="dropdown-menu js-dropmenu">
+
+          <div class="megamenu">
+            <div class="row m-0">
+              <div class="megamenu-left col-lg-8">
+                <div class="row">
+                  {% for j in (1..4) %}
+
+                  {% capture _enable_mega_col %}enable_ms{{i}}_s1_c{{j}}{% endcapture %}
+                  {% capture _mega_col_img_up %}ms{{i}}_s1_c{{j}}_img{% endcapture %}
+                  {% capture _mega_col_img_url %}ms{{i}}_s1_c{{j}}_img_url{% endcapture %}
+                  {% capture _mega_col_menu %}ms{{i}}_s1_c{{j}}_menu{% endcapture %}
+                  {% if settings[_enable_mega_col] %}
+                  <div class="megamenu-inner col-lg-3">
+                    {% if settings[_mega_col_img_up] != blank %}
+                    <a href="{{settings[_mega_col_img_url]}}">
+                      <img src="{{settings[_mega_col_img_up]|img_url:'master'}}" alt="Banner" class="img-fluid">
+                    </a>
+                    {% endif %}
+
+                    {% for link in linklists[settings[_mega_col_menu]].links %}
+                    {% assign child_list_handle_s1_col = link.title | handleize %}
+                    {% if linklists[child_list_handle_s1_col].links != blank %}
+                    <h3>
+                      <a href="{{link.url}}">{{link.title}}</a>
+                    </h3>
+                    <ul class="megamenu-shop list-unstyled">
+                      {% for childlink in linklists[child_list_handle_s1_col].links %}
+                      <li>
+                        <a href="{{childlink.url}}">{{childlink.title}}</a>
+                      </li>
+                      {% endfor %}
+                    </ul>
+                    {% else %}
+                    <h3><a href="{{link.url}}">{{link.title}}</a></h3>
+                    {% endif %}
+
+                    {% endfor %}
+
+                  </div>
+                  {% endif %}
+                  {% endfor %}
+                </div>
+              </div>
+
+              {% if settings[_enable_mega_lcol] %}
+              <div class="megamenu-right col-lg-4 text-lg-right">
+                {% if settings[_mega_lcol_img_up] != blank %}
+                <img src="{{settings[_mega_lcol_img_up]|img_url:'master'}}" alt="banner" class="img-fluid">
+                {% else %}
+                <img src="//" alt="banner" class="img-fluid">
+                {% endif %}
+
+                <div class="megamenu-info">
+                  <p class="mb-lg-0 text-capitalize">{{settings[_mega_lcol_title]}}</p>
+                  <h3>{{settings[_mega_lcol_content]}}</h3>
+                  <a href="{{settings[_mega_lcol_img_url]}}" class="text-capitalize">{{settings[_mega_lcol_btn_name]}}<i class="ti-arrow-right"></i></a>
+                </div>
+              </div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </li>
+      {% endif %}
+      {% endfor %}
+
+      {% else %}
+
+      {% if linklists[child_list_handle].links != blank %}
+      <li class="nav-item">
+        <a class="nav-link" href="{{ link.url }}">
+          <span>{{ link.title }}</span>
+          <i class="fa fa-angle-right"></i>
+        </a>
+        <div class="dropdown-menu1">
+          {% for childlink in linklists[child_list_handle].links %}
+          <a class="dropdown-item" href="{{childlink.url}}">{{childlink.title}}</a>
+          {% endfor %}
+        </div>
+      </li>
+      {% else %}
+      <li class="nav-item">
+        <a class="nav-link" href="{{ link.url }}"><span>{{ link.title }}</span></a>
+      </li>
+      {% endif %}
+
+      {% endif %}
+
+      {% endfor %}
+    </ul>
+
+  </div>
+</nav>

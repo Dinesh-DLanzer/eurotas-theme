@@ -1,0 +1,197 @@
+<div data-section-id="{{ section.id }}" data-section-type="section-slideshow-v2" style="{% if section.settings.margin_top != blank %}margin-top: {{section.settings.margin_top}}px;{%endif%} {% if section.settings.margin_bottom != blank %}margin-bottom: {{section.settings.margin_bottom}}px;{% endif %} {% if section.settings.sections_layout == "dark" %}background: {{section.settings.sections_bg_color}};{% endif %}">
+  <div class="section-slideshow-v2">
+    <div class="slider-v2 js-slideshow-v2 mb-0">
+      {% for block in section.blocks %}
+      <div class="position-relative">
+        {% if block.type == "slideshow" %}
+        <div class="img-slider" >
+          <a href="{{block.settings.slider_url}}" class="d-block">
+            {% if block.settings.slider_bg == blank %}
+            <img src="//placehold.it/1920x980" alt="image">
+            {% else %}
+            <img src="{{block.settings.slider_bg | img_url:'master'}}" class="img-fluid" alt="image">
+            {% endif %}
+          </a>
+          </div>
+        <div class="slide-info">
+          {% if block.settings.slider_sub_title != blank %}
+          <h5 style="color:{{block.settings.color_slider}}">{{block.settings.slider_sub_title}}</h5>
+          {% endif %}
+
+          {% if block.settings.slider_title != blank %}
+          <h2 style="color:{{block.settings.color_slider}}">{{block.settings.slider_title}}</h2>
+          {% endif %}
+
+          {% if block.settings.slider_content != blank %}
+          <p style="color:{{block.settings.color_slider}}">{{block.settings.slider_content}}</p>
+          {% endif %}
+
+          {% if block.settings.slider_btn_name != blank %}
+          <a class="btn-sv1-{{section.id}}-{{block.id}} button-name" href="{{block.settings.btn_url}}"><span>{{block.settings.slider_btn_name}}</span></a>
+          {% endif %}
+    </div>
+        {% endif %}
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+<style>
+  {% if section.blocks.size > 0 %}
+  {% for block in section.blocks %}
+  {% if block.type == "slideshow" %}
+  .section-slideshow-v2 .slide-info .btn-sv1-{{section.id}}-{{block.id}}{
+    background:{{block.settings.bg_btn_name}};
+    color:{{block.settings.color_btn_name}}
+  }
+  .section-slideshow-v2 .slide-info .btn-sv1-{{section.id}}-{{block.id}}:hover, .section-slideshow-v1 .btn-sv1-{{section.id}}-{{block.id}}:focus {
+    color: {{block.settings.color_btn_name_hover}};
+    background: {{block.settings.bg_btn_name_hover}};
+  }
+  {% endif %}
+  {% endfor %}
+  {% endif %}
+</style>
+{% schema %}
+{
+  "name": "Slideshow v2",
+  "class": "index-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Space"
+    },
+    {
+      "type": "text",
+      "id": "margin_top",
+      "label": "Margin Top",
+      "info": "Defined in pixels. Do not add the 'px' unit."
+    },
+    {
+      "type": "text",
+      "id": "margin_bottom",
+      "label": "Margin Bottom",
+      "info": "Defined in pixels. Do not add the 'px' unit."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "slideshow",
+      "name": "Image slide",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "slider_bg",
+          "info": "1920 x 980px recommended",
+          "label": "Background Image"
+        },
+        {
+          "type": "url",
+          "id": "slider_url",
+          "label": "Background URL",
+          "default": "/collections/all"
+        },
+        {
+          "type": "color",
+          "id": "color_slider",
+          "label": "Color slide",
+          "default": "#fff"
+        },
+        {
+          "type": "text",
+          "id": "slider_sub_title",
+          "label": "Sub title",
+          "default": "Women's Originals"
+        },
+        {
+          "type": "text",
+          "id": "slider_title",
+          "label": "Title",
+          "default": "Coeeze Cropped Hoodie."
+        },
+        {
+          "type": "textarea",
+          "id": "slider_content",
+          "label": "Content",
+          "default": "01 - Women/Clothing"
+        },
+        {
+          "type": "text",
+          "id": "slider_btn_name",
+          "label": "Button name",
+          "default": "Dicosvery Now"
+        },
+        {
+          "type": "url",
+          "id": "btn_url",
+          "label": "Button URL",
+          "default": "/collections/all"
+        },
+        {
+          "type": "color",
+          "id": "bg_btn_name",
+          "label": "Background button name",
+          "default": "#222"
+        },
+        {
+          "type": "color",
+          "id": "color_btn_name",
+          "label": "Color button name",
+          "default": "#fff"
+        },
+        {
+          "type": "color",
+          "id": "color_btn_name_hover",
+          "label": "Color button name hover",
+          "default": "#222"
+        },
+        {
+          "type": "color",
+          "id": "bg_btn_name_hover",
+          "label": "Background button name hover",
+          "default": "#fff"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Slideshow v2",
+      "category": "Home 2",
+      "blocks": [
+        {
+          "type": "slideshow",
+          "settings": {
+            "slider_sub_title": "Women's Originals",
+			"slider_title": "Coeeze Cropped<br>Hoodie.",
+			"slider_content": "01 - Women/Clothing"
+          }
+        },
+        {
+          "type": "slideshow",
+          "settings": {
+            "slider_sub_title": "Men's Originals",
+			"slider_title": "New Sneaker<br>Fower.",
+			"slider_content": "02 - Men/Clothing"
+          }
+        },
+        {
+          "type": "slideshow",
+          "settings": {
+            "slider_sub_title": "2019 Collection",
+			"slider_title": "New Spring<br>Collection",
+			"slider_content": "03 - Collection/Clothing"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

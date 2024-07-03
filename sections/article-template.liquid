@@ -1,0 +1,365 @@
+<!-- /sections/article-template.liquid -->
+<section id="content-article">
+  <div class="content-article-page">
+    <div class="pd-banner">
+      <a href="{{section.settings.bg_url}}" class="effect_img2">
+        {% if section.settings.bg_img != blank %}
+        <img src="{{section.settings.bg_img|img_url:'master'}}" class="img-fluid" alt="blog">
+        {% else %}
+        <img src="//placehold.it/1920x550" class="img-fluid w-100" alt="">
+        {% endif %}
+      </a>
+      <div class="page-title text-center">
+        <h2>{{section.settings.blog_title}}</h2>
+        {% include 'breadcrumb' %}
+      </div>
+    </div>
+    <div class="box-blog-post">
+      <div class="container-fluid my-container">
+        <div class="row">
+          {% unless section.settings.blog_layout == "blog_layo_none" %}
+          {% if section.settings.blog_layout == "blog_layo_left" %}
+          <div class="col-lg-4 col-xl-3">
+            {% include 'article-sidebar' %}
+          </div>
+          {% endif %}
+          {% endunless %}
+          <div class="{% if section.settings.blog_layout == "blog_layo_none" %}col-lg-12{% else %} col-lg-8 col-xl-9{% endif %} col-12">
+            <div class="wrap-bread-crumb">
+              {% include 'breadcrumb' %}
+            </div>
+            <!-- End Bread Crumb -->
+
+            <div class="search">
+              <form action="/search" class="form-inline">
+                <input type="hidden" name="type" value="product">
+                <input class="form-control" name="q" type="search" placeholder="Search..." value="{{ search.terms | escape }}" aria-label="search">
+                <button type="submit" class="search-submit ti-search">
+                </button>
+              </form>
+            </div>
+
+            <div class="posts-title">
+              <h2>{{article.title}}</h2>
+            </div>
+            <!-- End Title Page -->
+            <div class="content-single-blog">
+              <!-- End Single Post Thumb -->
+              <ul class="list-unstyled post-meta-data">
+                {% if section.settings.show_author %}
+                <li>
+                  <div class="author">
+                    BY <a href="{{ article.url }}">{{ article.author }}</a>
+                  </div>
+                </li>
+                {% endif %}
+
+                {% if section.settings.show_comments %}
+                <li>
+                  <div class="blog-comment">
+                    <i class="ti-comments"></i>
+                    <span class="c-black">{{article.comments_count}} Comments</span>
+                  </div>
+                </li>
+                {% endif %}
+
+                {% if section.settings.show_datetime %}
+                <div class="blog-meta">
+                  <i class="ti-time"></i>
+                  <span>Date: {{ article.published_at | date: '%b.%d.%Y' }}</span>
+                </div>
+                {% endif %}
+              </ul>
+
+              <div class="content-post-default">
+                {{article.content}}
+              </div>
+
+              <div class="tags-share d-flex justify-content-between">
+                {% if section.settings.show_single_tag %}
+                <div class="content-single-tags">
+                  <h6 class="text-capitalize mb-0 d-inline-block">{{section.settings.single_tag}}</h6>
+                  <ul class="list-tag list-unstyled d-inline-flex mb-0">
+
+                    {% for tag in article.tags %}
+                    <li>{{ tag | link_to_tag: tag }}</li>
+                    {% endfor %}
+                  </ul>
+                </div>
+                {% endif %}
+                {% if section.settings.show_social_share %}
+                <div class="content-single-share d-inline-flex">
+                  <h6 class="text-capitalize mb-0">{{section.settings.share}}</h6>
+                  {% for block in section.blocks %}
+                  {% if block.type == "social" %}
+                  <div class="list-share">
+                    <a target="_blank" href="{{block.settings.social_url}}" class="{{block.settings.social_icon}}"></a>
+                  </div>
+                  {% endif %}
+                  {% endfor %}
+                </div>
+                {% endif %}
+              </div>
+
+              {% if blog.comments_enabled? %}
+              {% include 'comment-article' %}
+              {% endif %}
+            </div>
+          </div>	
+          {% unless section.settings.blog_layout == "blog_layo_none" %}
+          {% if section.settings.blog_layout == "blog_layo_right" %}
+          <div class="col-lg-4 col-xl-3">
+            {% include 'article-sidebar' %}
+          </div>
+          {% endif %}
+          {% endunless %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+{% schema %}
+{
+  "name": "Article page",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "bg_img",
+      "label": "Background image",
+      "info": "1920 x 550px recommended"
+    },
+    {
+      "type": "text",
+      "id": "blog_title",
+      "label": "Title",
+      "default": "Our blog"
+    },
+    {
+      "type": "select",
+      "id": "blog_layout",
+      "options": [
+        {
+          "value": "blog_layo_left",
+          "label": "Sidebar Left"
+        },
+        {
+          "value": "blog_layo_right",
+          "label": "Sidebar Right"
+        },
+        {
+          "value": "blog_layo_none",
+          "label": "No Sidebar"
+        }
+      ],
+      "label": "Select Layout",
+      "default": "blog_layo_left"
+    },
+    {
+      "type": "header",
+      "content": "Config Author Article"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_author",
+      "label": "Show author?",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_comments",
+      "label": "Show date?",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_datetime",
+      "label": "Show date?",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Widget Categories"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_widget_cate",
+      "label": "Enable?",
+      "default": true
+    },
+    {
+      "type": "link_list",
+      "id": "select_menu_cate",
+      "label": "Menu for Categories"
+    },
+    {
+      "type": "header",
+      "content": "Widget Related Post"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_widget_related",
+      "label": "Enable?",
+      "default": true
+    },
+    {
+      "type": "blog",
+      "id": "select_blog",
+      "label": "Select Blog"
+    },
+    {
+      "type": "range",
+      "id": "blogs_limit",
+      "label": "Limit blogs",
+      "min": 2,
+      "max": 50,
+      "step": 1,
+      "default": 5
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_author",
+      "label": "Enable author sidebar?",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_datetime",
+      "label": "Enable datetime sidebar?",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "widget_related_title",
+      "label": "Title Widget",
+      "default": "Recent Posts"
+    },
+    {
+      "type": "header",
+      "content": "Widget Comment Sidebar"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_widget_related_comment",
+      "label": "Enable?",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "widget_related_comment",
+      "label": "Title Widget",
+      "default": "Recent Comments"
+    },
+    {
+      "type": "header",
+      "content": "Widget Product Sidebar"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_widget_product",
+      "label": "Enable?",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "widget_product_title",
+      "label": "Title Widget",
+      "default": "Sale Product"
+    },
+    {
+      "type": "collection",
+      "id": "select_collection",
+      "label": "Select Collection"
+    },
+    {
+      "type": "range",
+      "id": "products_limit",
+      "label": "Limit products",
+      "min": 2,
+      "max": 50,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "header",
+      "content": "Tag sidebar"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_widget_tag",
+      "label": "Enable?",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "shop_by_tag_title",
+      "label": "Widget Title",
+      "default": "Blog Tags"
+    },
+    {
+      "type": "header",
+      "content": "Comment"
+    },
+    {
+      "type": "image_picker",
+      "id": "author_img_comment",
+      "info": "46 x 46px recommended",
+      "label": "Author Image Comment"
+    },
+    {
+      "type": "text",
+      "id": "btn_name_comment",
+      "label": "Button name comment",
+      "default": "Post"
+    },
+    {
+      "type": "header",
+      "content": "Tags share"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_single_tag",
+      "label": "Show single tags?",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "single_tag",
+      "label": "Tags Title",
+      "default": "Tags"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_social_share",
+      "label": "Show social share?",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "share",
+      "label": "Share title",
+      "default": "Share:"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "social",
+      "name": "Social",
+      "settings": [
+        {
+          "type": "text",
+          "id": "social_icon",
+          "label": "Social con",
+          "info": "[Get icon here](http://aalmiray.github.io/ikonli/cheat-sheet-themify.html)"
+        },
+        {
+          "type": "url",
+          "id": "social_url",
+          "label": "Social URL"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

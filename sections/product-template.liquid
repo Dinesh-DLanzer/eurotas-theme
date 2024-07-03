@@ -1,0 +1,406 @@
+{% assign on_sale = false %}
+{% if product.compare_at_price > product.price %}
+{% assign on_sale = true %}
+{% endif %}
+
+{% assign sold_out = true %}
+{% if product.available %}
+{% assign sold_out = false %}
+{% endif %}
+
+<div class="content-page-detail">
+  <div class="pd-banner">
+    <a href="{{section.settings.bg_url}}" class="effect_img2">
+      {% if section.settings.bg_img != blank %}
+      <img src="{{section.settings.bg_img|img_url:'master'}}" class="img-fluid" alt="blog">
+      {% else %}
+      <img src="//placehold.it/1920x550" class="img-fluid w-100" alt="">
+      {% endif %}
+    </a>
+    <div class="page-title text-center">
+      <h2>{{section.settings.blog_title}}</h2>
+      {% include 'breadcrumb' %}
+    </div>
+  </div>
+  <div class="container-fluid my-container">
+    <div class="wrap-bread-crumb">
+      {% include 'breadcrumb' %}
+    </div>
+    <!-- Start of Judge.me code --><div style='{{ jm_style }}' class='jdgm-widget jdgm-preview-badge' data-id='{{ product.id }}' data-auto-install='false'>{{ product.metafields.judgeme.badge }}</div><!-- End of Judge.me code -->
+    <!-- End Bread Crumb -->
+    {% if section.settings.product_templace == "product_detail_v1" %}
+    {% include 'product-detail-v1' %}
+    {% else %}
+    {% include 'product-detail-v2' %}
+    {% endif %}
+    {% include 'product-tabs' %}
+    {% include 'featured-product' %}
+    {% include 'related-product' %}
+    <!-- End Related Tabs -->
+
+  </div>
+</div>
+
+{% comment %}
+To take advantage of a callback on the select dropdown, add option_selection.js
+and customize the JS in timber.productPage as needed.
+
+Currently, timber.productPage does the following:
+- Hides your <select> tag from above
+- Breaks out the product variants into separate product options, if more than one exists
+- Generates a <select> tag for each product option
+- Enables/disables elements based on variant availability
+
+Callback notes:
+- Keep the callback available to the global scope (window.selectCallback) so that advanced
+addons can override it.
+* E.g. multiple currencies http://docs.shopify.com/manual/configuration/store-customization/currencies-and-translations/currencies/how-to-toggle-between-two-currencies
+{% endcomment %}
+{{ 'option_selection.js' | shopify_asset_url | script_tag }}
+
+<script>
+
+  var selectCallback = function(variant, selector) {
+    // BEGIN SWATCHES
+    if (variant) {
+      var form = jQuery('#' + selector.domIdPrefix).closest('form');
+      for (var i=0,length=variant.options.length; i<length; i++) {
+        var radioButton = form.find('.swatch[data-option-index="' + i + '"] :radio[value="' + variant.options[i] +'"]');
+        if (radioButton.size()) {
+          radioButton.get(0).checked = true;
+        }
+      }
+    }
+    // END SWATCHES
+
+    {% if section.settings.show_sku %}
+    if (variant) {
+      $('.engoj-variant-sku').text(variant.sku);
+    }
+    else {
+      $('.engoj-variant-sku').empty();
+    }
+    {% endif %}
+
+    var quantity = 1,
+        totalPrice;
+    if (variant) {
+      if (variant.available) {
+        // Selected a valid variant that is available.
+        $('.engoj-btn-addtocart').removeClass('disabled').removeAttr('disabled').val('Add to Cart').fadeTo(200,1);
+      } else {
+        // Variant is sold out.
+        $('.engoj-btn-addtocart').val('Sold Out').addClass('disabled').attr('disabled', 'disabled').fadeTo(200,0.5);
+      }
+      quantity = parseInt($('#Quantity').val(), 10);
+      totalPrice = variant.price * quantity;
+
+      if ( variant.compare_at_price > variant.price ) {
+        $('.enj-product-price').html(Shopify.formatMoney(variant.price, window.money_format));
+        $('.enj-product-price-compare').html(Shopify.formatMoney(variant.compare_at_price, window.money_format));
+      } else {
+        $('.enj-product-price').html(Shopify.formatMoney(variant.price, window.money_format));
+        $('.enj-product-price-compare').html(Shopify.formatMoney(variant.compare_at_price, window.money_format));
+
+      }
+
+
+    } else {
+      // variant doesn't exist.
+      $('.engoj-btn-addtocart').val('Unavailable').addClass('disabled').attr('disabled', 'disabled').fadeTo(200,0.5);
+    }
+
+    /*begin variant image*/
+    if (variant && variant.featured_image) {
+      var originalImage = jQuery(".engoj_img_main");
+      var newImage = variant.featured_image;
+      var element = originalImage[0];
+      Shopify.Image.switchImage(newImage, element, function (newImageSizedSrc, newImage, element) {
+        var $el = $(element);
+        $el.attr('src', newImageSizedSrc);
+        $(".engoj-nav-item:eq(0)").trigger('click');
+        $('.zoomLens').css('background-image','url("'+newImageSizedSrc+'")');
+      });        
+    }
+    /*end of variant image*/
+  }
+
+  jQuery(function($) {
+    new Shopify.OptionSelectors('productSelect', {
+      product: {{ product | json }},
+      onVariantSelected: selectCallback,
+      enableHistoryState: true
+    });
+
+    // Add label if only one product option and it isn't 'Title'. Could be 'Size'.
+    {% if product.options.size == 1 and product.options.first != 'Title' %}
+    $('.selector-wrapper:eq(0)').prepend('<label for="productSelect-option-0">{{ product.options.first | escape }}</label>');
+                                         {% endif %}
+
+                                         // Hide selectors if we only have 1 variant and its title contains 'Default'.
+                                         {% if product.variants.size == 1 and product.variants.first.title contains 'Default' %}
+                                         $('.selector-wrapper').hide();
+    {% endif %}
+  });
+</script>
+
+
+
+{% schema %}
+{
+  "name": "Product detail page",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "bg_img",
+      "label": "Background image",
+      "info": "1920 x 550px recommended"
+    },
+    {
+      "type": "text",
+      "id": "blog_title",
+      "label": "Title",
+      "default": "Men's Shoes"
+    },
+    {
+      "type": "header",
+      "content": "Product templace"
+    },
+    {
+      "type": "select",
+      "id": "product_templace",
+      "label": "Select Style Product",
+      "options": [
+        {
+          "value": "product_detail_v1",
+          "label": "Product detail v1"
+        },
+        {
+          "value": "product_detail_v2",
+          "label": "Product detail v2"
+        }
+      ],
+      "default": "product_detail_v1"
+    },
+    {
+      "type": "header",
+      "content": "Product Style"
+    },
+    {
+      "type": "select",
+      "id": "style_thumb",
+      "label": "Select Style",
+      "options": [
+        {
+          "value": "right",
+          "label": "Style Thumbnail Right"
+        },
+        {
+          "value": "bottom",
+          "label": "Style Thumbnail Bottom"
+        }
+      ],
+      "default": "right"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_rating",
+      "label": "Show rating star",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_sdes",
+      "label": "Show summary description",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_social_share",
+      "label": "Show social share",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "share",
+      "label": "Share title",
+      "default": "Share:"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_quantity",
+      "label": "Show quantity box",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_cate",
+      "label": "Show Categories",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_tag",
+      "label": "Show Tag",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Product Tabs"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_alltab",
+      "label": "Enable All Tab?",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Description Tab"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_description_tab",
+      "label": "Enable?",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "destab_title",
+      "label": "Title",
+      "default": "Description"
+    },
+    {
+      "type": "header",
+      "content": "Custom Tab"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_custom_tab",
+      "label": "Enable?",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "customtab_title",
+      "label": "Title",
+      "default": "Additional information"
+    },
+    {
+      "type": "select",
+      "id": "custom_tab_option",
+      "options": [
+        {
+          "value": "ct_ops_image1",
+          "label": "Option 1: Image"
+        },
+        {
+          "value": "ct_ops_html1",
+          "label": "Option 2: HTML Code"
+        },
+        {
+          "value": "ct_ops_page1",
+          "label": "Option 3: Page Content"
+        }
+      ],
+      "label": "Select Custom Tab Option",
+      "default": "ct_ops_html1"
+    },
+    {
+      "type": "image_picker",
+      "id": "ct_option_11",
+      "label": "Option 1 Image"
+    },
+    {
+      "type": "textarea",
+      "id": "ct_option_21",
+      "label": "Option 2 HTML code"
+    },
+    {
+      "type": "page",
+      "id": "ct_option_31",
+      "label": "Option 3 Page Content"
+    },
+    {
+      "type": "header",
+      "content": "Review Tab"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_review_tab",
+      "label": "Enable?",
+      "default": true
+    },
+    {
+      "type": "paragraph",
+      "content": "After enabling reviews you will need to install the free [Shopify Product Reviews](https:\/\/apps.shopify.com\/product-reviews) app."
+    },
+    {
+      "type": "text",
+      "id": "reviewtab_title",
+      "label": "Title",
+      "default": "Reviews"
+    },
+    {
+      "type": "header",
+      "content": "Featured Product"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_featured_product",
+      "label": "Enable?",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "featured_product_title",
+      "label": "Title",
+      "default": "You May Also Like"
+    },
+    {
+      "type": "collection",
+      "id": "select_collection",
+      "label": "Select Collection"
+    },
+    {
+      "type": "range",
+      "id": "products_limit",
+      "label": "Limit products",
+      "min": 2,
+      "max": 50,
+      "step": 1,
+      "default": 8
+    },
+    {
+      "type": "header",
+      "content": "Related Product"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_related_product",
+      "label": "Enable?",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "related_product_title",
+      "label": "Title",
+      "default": "Related products"
+    },
+    {
+      "type": "range",
+      "id": "related_product_limit",
+      "label": "Limit products",
+      "min": 2,
+      "max": 50,
+      "step": 1,
+      "default": 8
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product detail Page"
+    }
+  ]
+}
+{% endschema %}

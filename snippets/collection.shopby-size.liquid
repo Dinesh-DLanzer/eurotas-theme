@@ -1,0 +1,16 @@
+<section class="widget widget-size filter-tag">
+  <h2 style="color:{{section.settings.color_widget_title}};font-size:{{section.settings.fs_widget_title}}px" class="widget-title">{{section.settings.shop_by_size_title}}</h2>
+  <ul class="list-unstyled d-flex flex-wrap">
+    {% assign tags = section.settings.shop_by_size_list_tags | split: ',' %}
+    
+    {% for t in tags %}
+    {% assign tag = t | strip %}
+    {% assign tag_value = tag | handleize %}
+    <li class="cat-item{% if current_tags contains tag %} current-cat{% endif %}">
+      <input type="checkbox" value="{{ tag_value | split: '|' | first }}" {% if current_tags contains tag %}checked{% endif %}/>
+      <a href="javascript:void(0)" title="{{tag}}">{{tag}}</a>
+    </li>
+    {% endfor %}
+  </ul>
+  <!-- /.product-categories -->
+</section>

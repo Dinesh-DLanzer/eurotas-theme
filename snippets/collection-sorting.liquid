@@ -1,0 +1,72 @@
+<div class="row">
+  <div class="col-lg-4 col-md-6 col-12">
+    <div class="showing">
+      <span class="ml-50">Showing {{ paginate.current_offset | plus: 1 }} - {% if paginate.next %}
+        {{ paginate.current_offset | plus: paginate.page_size }}
+        {% else %}
+        {{ paginate.items }}
+        {% endif %} of {{ paginate.items }} {{ 'collections.showby.results' | t }}
+      </span>
+    </div>
+  </div>
+  <div class="col-lg-8 col-md-6 col-12">
+    <div class="part-product-wrap d-flex float-md-right flex-wrap">
+      <div class="show-product d-none d-lg-flex">
+        <label>Show</label>
+        <select name="showby" id="showby-grid" style="width: auto;" class="d-none js-col-grid" data-js="js-col-grid" >
+          <option value="2"{% if section.settings.products_per == '2' %} selected="selected" {% endif %}> 2 </option>
+          <option value="3"{% if section.settings.products_per == '3' %} selected="selected" {% endif %}> 3 </option>
+          <option value="4"{% if section.settings.products_per == '4' %} selected="selected" {% endif %}> 4 </option>
+        </select>
+        <select name="showby" id="showby-list" style="width: auto;" class="d-none js-col-list" data-js="js-col-list" >
+          <option value="1"{% if section.settings.products_per_list == '1' %} selected="selected" {% endif %}> 1 </option>
+          <option value="2"{% if section.settings.products_per_list == '2' %} selected="selected" {% endif %}> 2 </option>
+        </select>
+      </div>
+      <div class="filter-ordering">
+        <select name="SortBy" id="SortBy" class="orderby">
+          <option value="manual">{{ 'collections.sorting.featured' | t }}</option>
+          <option value="best-selling">{{ 'collections.sorting.best_selling' | t }}</option>
+          <option value="title-ascending">{{ 'collections.sorting.az' | t }}</option>
+          <option value="title-descending">{{ 'collections.sorting.za' | t }}</option>
+          <option value="price-ascending">{{ 'collections.sorting.price_ascending' | t }}</option>
+          <option value="price-descending">{{ 'collections.sorting.price_descending' | t }}</option>
+          <option value="created-descending">{{ 'collections.sorting.date_descending' | t }}</option>
+          <option value="created-ascending">{{ 'collections.sorting.date_ascending' | t }}</option>
+        </select>
+      </div>
+      <div class="part-product-size d-flex js-select-style">
+        <a href="javascript:void(0)" data-style="grid" class="ti-layout-grid4-alt {% if section.settings.collection_style == "grid" %}active{% endif %}">
+        </a>
+        <a href="javascript:void(0)" data-style="list" class="ti-align-justify {% if section.settings.collection_style == "list" %}active{% endif %}">
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  /*============================================================================
+    Inline JS because collection liquid object is only available
+    on collection pages and not external JS files
+  ==============================================================================*/
+  Shopify.queryParams = {};
+  if (location.search.length) {
+    for (var aKeyValue, i = 0, aCouples = location.search.substr(1).split('&'); i < aCouples.length; i++) {
+      aKeyValue = aCouples[i].split('=');
+      if (aKeyValue.length > 1) {
+        Shopify.queryParams[decodeURIComponent(aKeyValue[0])] = decodeURIComponent(aKeyValue[1]);
+      }
+    }
+  }
+
+  $(function() {
+    $('#SortBy')
+    .val('{{ collection.sort_by | default: collection.default_sort_by }}')
+         .bind('change', function() {
+      Shopify.queryParams.sort_by = jQuery(this).val();
+      location.search = jQuery.param(Shopify.queryParams);
+    }
+    );
+  });
+</script>

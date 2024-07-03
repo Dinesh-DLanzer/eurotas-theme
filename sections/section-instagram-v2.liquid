@@ -1,0 +1,283 @@
+<div data-section-id="{{ section.id }}" data-section-type="section-intagram-v2" style="{% if section.settings.margin_top != blank %}margin-top: {{section.settings.margin_top}}px;{%endif%} {% if section.settings.margin_bottom != blank %}margin-bottom: {{section.settings.margin_bottom}}px;{% endif %} {% if section.settings.sections_layout == "dark" %}background: {{section.settings.sections_bg_color}};{% endif %}">
+  <div class="section-intagram-v2 mt-all">
+    
+    {% assign instafeed_img = '{{image}}' %}
+    {% assign instafeed_link = '{{link}}' %}
+
+    {% if section.settings.ins_userid != blank and section.settings.ins_access_token != blank %}
+    <script>
+      jQuery(document).ready(function($) {
+        var feed = new Instafeed({
+          get: 'user',
+          userId: '{{section.settings.ins_userid}}',
+          accessToken: '{{section.settings.ins_access_token}}',
+          template: '<div class="box-img"> <div class="picture"> <a href="{{instafeed_link}}"> <img src="{{instafeed_img}}" class="img-fluid w-100" alt="instagram"> </a> </div> <div class="content-intagram text-center"> <a href="{{instafeed_link}}" class="ti-instagram"></a> <h4 class="mb-0">{{section.settings.section_title_item}}</h4> </div> </div>',
+          target: 'engoj_instagramv2',
+          resolution: 'standard_resolution',
+          limit: '{{section.settings.ins_limit_number}}',
+          after: engo_ins
+        });
+        feed.run();
+
+        function engo_ins() {
+          if ($(window).width() < 768) {
+            $('.js-instagram').slick({
+              arrows: false,
+              dots: false,
+              infinite: true,
+              autoplay: true,
+              slidesToShow: 3,
+              slidesToScroll: 3,
+              responsive: [
+                {
+                  breakpoint: 576,
+                  settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 2,
+                    arrows: false,
+                    autoplay: true
+                  }
+                }
+              ]
+            });
+          }
+          $(window).resize(function(){
+            if ($(window).width() < 768) {
+              if (!$('.js-instagram').hasClass('slick-slider')) {
+                $('.js-instagram').slick({
+                  arrows: false,
+                  dots: false,
+                  infinite: true,
+                  autoplay: true,
+                  slidesToShow: 3,
+                  slidesToScroll: 3,
+                  responsive: [
+                    {
+                      breakpoint: 576,
+                      settings: {
+                        slidesToShow: 2,
+                        slidesToScroll: 2,
+                        arrows: false,
+                        autoplay: true
+                      }
+                    }
+                  ]
+                });
+              }
+            } else {
+              if ($('.js-instagram').hasClass('slick-slider')) {
+                $('.js-instagram').slick('unslick')
+              }
+            }
+          })
+        }
+      });
+    </script>
+    {% else %}
+    <script>
+      jQuery(document).ready(function($) {
+        function engo_ins() {
+          if ($(window).width() < 768) {
+            $('.js-instagram').slick({
+              arrows: false,
+              dots: false,
+              infinite: true,
+              autoplay: true,
+              slidesToShow: 3,
+              slidesToScroll: 3,
+              responsive: [
+                {
+                  breakpoint: 576,
+                  settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 2,
+                    arrows: false,
+                    autoplay: true
+                  }
+                }
+              ]
+            });
+          }
+          $(window).resize(function(){
+            if ($(window).width() < 768) {
+              if (!$('.js-instagram').hasClass('slick-slider')) {
+                $('.js-instagram').slick({
+                  arrows: false,
+                  dots: false,
+                  infinite: true,
+                  autoplay: true,
+                  slidesToShow: 3,
+                  slidesToScroll: 3,
+                  responsive: [
+                    {
+                      breakpoint: 576,
+                      settings: {
+                        slidesToShow: 2,
+                        slidesToScroll: 2,
+                        arrows: false,
+                        autoplay: true
+                      }
+                    }
+                  ]
+                });
+              }
+            } else {
+              if ($('.js-instagram').hasClass('slick-slider')) {
+                $('.js-instagram').slick('unslick')
+              }
+            }
+          })
+        }
+        engo_ins();
+
+      });
+    </script>
+    {% endif %}
+    
+      <div class="box-intargram">
+        <div class="text-center box-sextion-top  text_top">
+          {% if section.settings.icon_insta != blank %}
+          <span class="icon-top"><i class="{{section.settings.icon_insta}}"></i></span>
+          {% endif %}
+          {% if section.settings.title_insta != blank %}
+          <h3 class="title_insta text-center mb-0">{{section.settings.title_insta}}</h3>
+          {% endif %}
+        </div>       
+
+        <div class="">
+          <div class=" justify-content-center js-instagram" id="engoj_instagramv2">
+
+            {% if section.settings.ins_userid == blank or section.settings.ins_access_token == blank %}
+            {% if shop.permanent_domain == "eurotas-demo.myshopify.com" %}
+            {% for i in (1..7) %}
+
+              <div class="box-img">
+                <div class="picture text-center">
+                  <a href="https://www.instagram.com/">
+                    <img class="w-100" src="{{ 'instagram' | append: i | append: '.jpg' | file_img_url: 'master' }}" alt="instagram" />
+                  </a>
+                </div>
+                <div class="content-intagram text-center">
+                  <a href="https://www.instagram.com/" class="ti-instagram"></a>
+                  {% if section.settings.section_title_item != blank %}
+                  <h4 class="mb-0">{{section.settings.section_title_item}}</h4>
+                  {% endif %}
+                </div>
+              </div>
+
+            {% endfor %}
+            {% else %}
+            <div class="col-lg-3 px-0 col-12 col-sm-6 col-md-3 ">
+              <div class="box-img">
+                <div class="picture">
+                  <a href="https://www.instagram.com/">
+                    {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+                  </a>
+                </div>
+                <div class="content-intagram text-center">
+                  <a href="https://www.instagram.com/" class="ti-instagram"></a>
+                  {% if section.settings.section_title_item != blank %}
+                  <h4 class="mb-0">{{section.settings.section_title_item}}</h4>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+            {% endif %}
+            {% endif %}
+            
+          </div>
+        </div>
+      </div>
+
+  </div>
+  <div class="clearfix"></div>
+</div>
+
+
+
+{% schema %}
+{
+  "name": "Intagram v2",
+  "class": "index-section",
+  "settings": [
+	{
+      "type": "header",
+      "content": "Title Intagram"
+    },
+	 {
+      "type": "text",
+      "id": "icon_insta",
+      "label": "Icon",
+      "default": "ti-instagram",
+      "info": "[Get icon in here](https://aalmiray.github.io/ikonli/cheat-sheet-themify.html)"
+    },
+	{
+      "type": "text",
+      "id": "title_insta",
+      "label": "Title section",
+      "default": "# Instagram"
+    },
+	{
+      "type": "header",
+      "content": "Info Intagram"
+    },
+    {
+      "type": "text",
+      "id": "section_title_item",
+      "label": "Title item",
+      "default": "Shop it"
+    },
+	{
+      "type": "header",
+      "content": "List Image Intagram"
+    },
+    {
+      "type": "text",
+      "id": "ins_userid",
+      "label": "User ID Instagram",
+      "default": "3672948962"
+    },
+    {
+      "type": "text",
+      "id": "ins_access_token",
+      "label": "Access Token Instagram",
+      "default": "3672948962.0f64772.430edb7f711e4665b59777c54d1ed9ce"
+    },
+    {
+      "type": "text",
+      "id": "ins_limit_number",
+      "label": "Limit Image",
+      "default": "6"
+    },
+    {
+      "type": "header",
+      "content": "Section Space"
+    },
+    {
+      "type": "text",
+      "id": "margin_top",
+      "label": "Margin Top",
+      "info": "Defined in pixels. Do not add the 'px' unit."
+    },
+    {
+      "type": "text",
+      "id": "margin_bottom",
+      "label": "Margin Bottom",
+      "info": "Defined in pixels. Do not add the 'px' unit."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Intagram v2",
+      "category": "HOME 4"
+    }
+  ]
+}
+{% endschema %}
+
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

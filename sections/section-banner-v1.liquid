@@ -1,0 +1,203 @@
+<div data-section-id="{{ section.id }}" data-section-type="section-banner-v1" style="{% if section.settings.margin_top != blank %}margin-top: {{section.settings.margin_top}}px;{%endif%} {% if section.settings.margin_bottom != blank %}margin-bottom: {{section.settings.margin_bottom}}px;{% endif %} {% if section.settings.sections_layout == "dark" %}background: {{section.settings.sections_bg_color}};{% endif %}">
+  <div class="section-banner-v1">
+    <div class="banner-v1 d-flex flex-wrap">
+    <div class="banner-1 banner-item {% if section.settings.enable_border %}{% if section.settings.select_border =='white' %}style2{% else %} style1 {% endif %}{% endif %} text-center {% if section.settings.location_banner == 'left' %}order-1 {% else %}order-2 {% endif %}">
+      <a href="{{section.settings.banner_url1}}" class="d-block img-url">
+        {% if section.settings.banner_img1 == blank %}
+        <img src="//placehold.it/545x590" class="img-fluid w-100" alt="">
+        {% else %}
+        <img src="{{section.settings.banner_img1|img_url:'master'}}" class="img-fluid w-100" alt="Banner">
+        {% endif %}
+      </a>
+      <div class="banner-left-info">
+        <h5>{{section.settings.banner_sub_title}}</h5>
+        <h2>{{section.settings.banner_left_title}}</h2>
+      </div>
+    </div>
+    <div class="banner-2 banner-item {% if section.settings.enable_border %}{% if section.settings.select_border =='white' %}style2{% else %} style1 {% endif %}{% endif %} {% if section.settings.location_banner == 'right' %}order-1 {% else %}order-2 {% endif %}">
+      <a href="{{section.settings.banner_url2}}" class="d-block img-url">
+        {% if section.settings.banner_img2 == blank %}
+        <img src="//placehold.it/1375x590" class="img-fluid w-100" alt="">
+        {% else %}
+        <img src="{{section.settings.banner_img2|img_url:'master'}}" class="img-fluid w-100" alt="Banner">
+        {% endif %} 
+      </a>
+      <div class="{% if section.settings.location_banner == 'left' %}banner-right-info1{% else %} banner-right-info2{% endif %}">
+        {% if section.settings.location_banner == 'left' %}
+        <h2>{{section.settings.banner_right_title}}</h2>
+        <h5>{{section.settings.banner_right_content}}</h5>
+        {% else %}
+        <h5>{{section.settings.banner_right_sub_title}}</h5>
+        <h2>{{section.settings.banner_right_title}}</h2>
+        {% endif %}
+        <a href="{{section.settings.btn_url}}" class="button-name style1">{{section.settings.btn_name}}</a>
+      </div>
+    </div>
+    </div>
+  </div>
+</div>
+{% schema %}
+{
+  "name": "Banner v1",
+  "class": "index-section",
+  "settings": [
+	{
+	  "type": "header",
+	  "content": "Location banner"
+	},
+      {
+        "type": "radio",
+        "id": "location_banner",
+        "label": "Location banner",
+        "options": [
+          {
+            "value": "left",
+            "label": "Left"
+          },
+          {
+            "value": "right",
+            "label": "Right"
+          }
+        ],
+        "default": "left"
+      },
+	{
+	  "type": "header",
+	  "content": "Select border"
+	},
+    {
+      "type": "checkbox",
+      "id": "enable_border",
+      "label": "Enable?",
+      "default": true
+    },
+      {
+        "type": "radio",
+        "id": "select_border",
+        "label": "Select border",
+        "options": [
+          {
+            "value": "white",
+            "label": "Border White"
+          },
+          {
+            "value": "black",
+            "label": "Border Black"
+          }
+        ],
+        "default": "white"
+      },
+	{
+	  "type": "header",
+	  "content": "Banner left"
+	},
+    {
+      "type": "image_picker",
+      "id": "banner_img1",
+      "info": "545 x 590px recommended",
+      "label": "Banner Image"
+    },
+    {
+      "type": "url",
+      "id": "banner_url1",
+      "label": "Banner URL",
+      "default": "/collections/all"
+    },
+	{
+	  "type": "header",
+	  "content": "Banner left info"
+	},
+    {
+      "type": "text",
+      "id": "banner_sub_title",
+      "label": "Banner left sub title",
+      "default": "Running Shoes"
+    },
+    {
+      "type": "text",
+      "id": "banner_left_title",
+      "label": "Banner left title",
+      "default": "Nike Just Do It"
+    },
+	{
+	  "type": "header",
+	  "content": "Banner right"
+	},
+    {
+      "type": "image_picker",
+      "id": "banner_img2",
+      "info": "1375 x 590px recommended",
+      "label": "Banner Image"
+    },
+    {
+      "type": "url",
+      "id": "banner_url2",
+      "label": "Banner URL",
+      "default": "/collections/all"
+    },
+	{
+	  "type": "header",
+	  "content": "Banner right info"
+	},
+    {
+      "type": "text",
+      "id": "banner_right_sub_title",
+      "label": "Banner right sub title",
+      "default": "New Arrivals"
+    },
+    {
+      "type": "text",
+      "id": "banner_right_title",
+      "label": "Banner right title",
+      "default": "The Benefits<br>Of Running"
+    },
+    {
+      "type": "text",
+      "id": "banner_right_content",
+      "label": "Banner right content",
+      "default": "Season Off 30 - 10%"
+    },
+    {
+      "type": "text",
+      "id": "btn_name",
+      "label": "Button name",
+      "default": "More info"
+    },
+    {
+      "type": "url",
+      "id": "btn_url",
+      "label": "Button URL",
+      "default": "/collections/all"
+    },
+    {
+      "type": "header",
+      "content": "Section Space"
+    },
+    {
+      "type": "text",
+      "id": "margin_top",
+      "label": "Margin Top",
+      "info": "Defined in pixels. Do not add the 'px' unit."
+    },
+    {
+      "type": "text",
+      "id": "margin_bottom",
+      "label": "Margin Bottom",
+      "info": "Defined in pixels. Do not add the 'px' unit."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Banner v1",
+      "category": "Home 1"
+    }
+  ]
+}
+{% endschema %}
+
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

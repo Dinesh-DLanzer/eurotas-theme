@@ -1,0 +1,192 @@
+<div class="sidebar sidebar-left sidebar-mobile js-sidebar-mobile">
+
+  {% if section.settings.enable_widget_cate %}
+  <div class="widget widget-category">
+    <div class="widget-content">
+      {% if section.settings.select_menu_cate != blank %}
+      <h2>{{linklists[section.settings.select_menu_cate].title}}</h2>
+      {% else %}
+      <h2>{{blog.title}}</h2>
+      {% endif %}
+
+      <ul class="list-category-toggle toggle-tab list-unstyled">
+        {% if section.settings.select_menu_cate != blank %}
+        {% for link in linklists[section.settings.select_menu_cate].links %}
+        {% if link.levels == 0 %}
+        <li class="item-toggle-tab">
+          <a class="toggle-tab-title" href="{{link.url}}">{{link.title}}</a>
+        </li>
+        {% else %}
+        <li class="item-toggle-tab">
+          <a class="toggle-tab-title" data-toggle="collapse" href="#toggle-tab-content">{{link.title}}
+            <i class="ti-angle-right"></i></a>
+          <div id="toggle-tab-content" class="collapse">
+            <ul class="list-unstyled">
+              {% for childlink in link.links %}
+              <li><a href="{{childlink.url}}">{{childlink.title}}</a></li>
+              {% endfor %}
+            </ul>
+          </div>
+        </li>
+        {% endif %}
+        {% endfor %}
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+  {% endif %}
+  <!-- END WIDGET CATEGORIES -->
+
+  {% if section.settings.enable_widget_related %}
+  <div class="widget widget-recent-post">
+    <h2 class="widget-title text-capitalize">{{section.settings.widget_related_title}}</h2>
+    {%- assign posts_limit = section.settings.blogs_limit -%}
+    {%- assign blog_selected = section.settings.select_blog -%}
+    <ul class="list-unstyled wg-list-posts">
+      {% for article in blogs[blog_selected].articles limit: posts_limit %}
+      <li>
+        <div class="item-post item-post-wg table-custom row">
+          <div class="col-lg-6 post-thumb banner-adv zoom-image overlay-image">
+            <a href="{{ article.url }}" class="adv-thumb-link"><img src="{{ article.image.src | img_url: 'original' }}" alt="{{ article.title }}" /></a>
+          </div>
+          <div class="col-lg-6 post-info">
+
+            {% if section.settings.enable_datetime %}
+            <div class="datetime">
+              <span>Date: {{ article.published_at | date: '%d %b %Y' }}</span>
+            </div>
+            {% endif %}
+
+            <h3 class="post-title text-capitalize">
+              <a href="{{ article.url }}">{{ article.title | truncatewords: 5 }}</a>
+            </h3>
+
+          </div>
+        </div>
+      </li>
+      {% else %}
+      {% for i in (1..posts_limit) %}
+      <li>
+        <div class="item-post item-post-wg table-custom row">
+          <div class="col-lg-6 post-thumb banner-adv zoom-image overlay-image">
+            <a href="/admin/articles" class="adv-thumb-link">
+              {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+            </a>
+          </div>
+          <div class="col-lg-6 post-info">
+
+            {% if section.settings.enable_datetime %}
+            <div class="datetime">
+              <span>Date: {{ 'now' | date: "%d %b %Y" }}</span>
+            </div>
+            {% endif %}
+
+            <h3 class="post-title text-capitalize">
+              <a href="/admin/articles">Example Blog Post</a>
+            </h3>
+          </div>
+        </div>
+      </li>
+      {% endfor %}
+
+      {% endfor %}
+    </ul>
+  </div>
+  {% endif %}
+  <!-- END RECENT POSTS -->
+  
+  {% if section.settings.enable_widget_related_comment  and article.comments_count > 0 %}
+    <div class="widget widget-recent-comment">
+      {%- assign comment_limit = section.settings.blogs_limit -%}
+      <h2 class="widget-title text-capitalize">{{section.settings.widget_related_comment}}</h2>
+      <ul class="wg-list-comment">
+        {% for comment in article.comments limit: blog_limit %}
+        <li>
+          <a href="{{ article.url }}/">{{comment.author}}
+            <span>{{comment}}</span>
+          </a>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+    {% endif %}
+
+    <!-- END COMMENTS POSTS -->
+
+  {% if section.settings.enable_widget_product %}
+  <div class="widget widget-product">
+    <h2 class="widget-title text-capitalize">{{section.settings.widget_product_title}}</h2>
+
+    {% assign count=1 %}
+    {% assign limit = section.settings.products_limit %}
+    {% if section.settings.select_collection != blank %}
+    {% for product in collections[section.settings.select_collection].products limit: limit %}
+    {% assign count = count | plus:1 %}
+
+    {% assign product_label_new = false %}
+    {% capture _time %}{{settings.product_new_time | times:86400}}{% endcapture %} 
+    {% assign time = _time|plus:0 %}
+    {% assign now = 'now' | date: '%s'|plus:0 %}
+
+    {% capture _value %}{{product.published_at | date: "%s" | plus : time }}{% endcapture %} 
+    {% assign value = _value|plus:0 %}
+
+    {% if now < value %}
+    {% assign product_label_new = true %}
+    {% endif %}
+
+    {% assign label_hot = false %}
+    {% if product.tags contains "Hot" %}
+    {% assign label_hot = true %}
+    {% endif %} 
+
+    {% assign on_sale = false %}
+    {% if product.compare_at_price > product.price %}
+    {% assign on_sale = true %}
+    {% endif %}
+
+    {% assign sold_out = true %}
+    {% if product.available %}
+    {% assign sold_out = false %}
+    {% endif %}
+
+    {% assign product = all_products[section.settings.select_product]%}
+
+    {% include 'product-item-v2' %}
+
+    {% endfor %}
+    {% else %}
+    {% for i in (1..limit) %}
+    {% include 'empty-product-item-v2' %}
+    {% endfor %}
+    {% endif %}
+  </div>
+  {% endif%}
+  <!-- END WIDGET PRODUCT -->
+
+  {% if section.settings.enable_widget_tag %}
+  <div class="widget widget-tags">
+    <h2 class="widget-title text-capitalize">{{section.settings.shop_by_tag_title}}</h2>
+    <ul class="list-unstyled wg-list-tags">
+      {% if blog.all_tags.size > 0 %}
+      {% for tag in blog.all_tags %}
+      {% if current_tags contains tag %}
+      <li>{{ tag }}</li>
+      {% else %}
+      <li>{{ tag | link_to_tag: tag }}</li>
+      {% endif %}
+      {% endfor %}
+      {% endif %}
+    </ul>
+  </div>
+  {% endif %}
+
+</div>
+
+<a href="javascript:void(0)" class="button-filter ti-filter d-lg-none d-block js-filter">
+</a>
+<a href="javascript:void(0)" class="change-button-filter ti-close js-close-filter d-none">
+  <i></i>
+</a>
+<div class="js-bg-filter bg-filter-overlay ">
+</div>

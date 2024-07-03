@@ -1,0 +1,45 @@
+{% assign products_limit = section.settings.related_product_limit | plus:1 %}
+
+{% if collection == null or collection.handle == 'frontpage' or collection.handle == 'all' %}
+{% assign found_a_collection = false %}
+{% for c in product.collections %}
+{% if found_a_collection == false and c.handle != 'frontpage' and c.handle != 'all' and c.all_products_count > 1 %}
+{% assign found_a_collection = true %}
+{% assign collection = c %}
+{% endif %}
+{% endfor %}
+{% endif %}
+
+{% if section.settings.enable_related_product %}
+<div class="related-product">
+  <h2>{{section.settings.related_product_title}}</h2>
+
+  <div>
+    {% if collection and collection.products_count > 1 %}
+    {% assign current_product = product %}
+    {% assign current_product_found = false %}
+    <div class="row pb-lg-0">
+      {% for product in collection.products limit: products_limit %}
+      {% if product.handle == current_product.handle %}
+      {% assign current_product_found = true %}
+      {% else %}
+      {% unless current_product_found == false and forloop.last %}
+      <div class="col-md-3 col-sm-6 col-12 p-0">
+        {% include 'product-item-v1' %}
+      </div>
+      {% endunless %}
+      {% endif %}
+      {% endfor %}
+    </div>
+    {% else %}
+    <div class="row ">
+      {% for i in (1..8) %}
+      <div class="col-lg-3 col-sm-6 col-12 p-0">
+        {% include 'empty-product-item-v1' %}
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </div>
+</div>
+{% endif %}

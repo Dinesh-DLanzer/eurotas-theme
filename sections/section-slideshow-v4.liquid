@@ -1,0 +1,194 @@
+<div data-section-id="{{ section.id }}" data-section-type="section-slideshow-v4" style="{% if section.settings.margin_top != blank %}margin-top: {{section.settings.margin_top}}px;{%endif%} {% if section.settings.margin_bottom != blank %}margin-bottom: {{section.settings.margin_bottom}}px;{% endif %} {% if section.settings.sections_layout == "dark" %}background: {{section.settings.sections_bg_color}};{% endif %}">
+  <div class="section-slideshow-v4">
+    <div class="container-fluid my-container">
+      <div class="row">
+        <div class="col-lg-6 col-md-6 col-12">
+          <div class="slider-v4 js-slideshow-v4">
+            {% if section.blocks.size > 0 %}
+            {% for block in section.blocks %}
+            {% if block.type == "slideshow" %}
+            <div class="content-slider">
+
+              <div class="slider-info">
+                {% if block.settings.slider_title != blank %}
+                <h2 style="color:{{block.settings.color_slider}}">{{block.settings.slider_title}}</h4>
+                {% endif %}
+
+                {% if block.settings.slider_description != blank %}
+                <p style="color:{{block.settings.color_slider}}">{{block.settings.slider_description}}</p>
+                {% endif %}
+
+              </div>
+              <div class="slider-img banner-item2" >
+                <a href="{{block.settings.slider_url}}" class="d-block">
+                  {% if block.settings.slider_image == blank %}
+                  <img src="//placehold.it/570x340" alt="image">
+                  {% else %}
+                  <img src="{{block.settings.slider_image | img_url:'master'}}" class="img-fluid" alt="Image">
+                  {% endif %}
+                </a>
+              </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+            {% endif %}
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-6 col-12">
+          <div class="js-slideshow-thumb">
+            {% if section.blocks.size > 0 %}
+            {% for block in section.blocks %}
+            {% if block.type == "slideshow" %}
+            <div class="banner banner-item style2">
+              <a href="{{block.settings.banner_url}}" class="d-block img-url">
+                {% if block.settings.banner_img == blank %}
+                <img src="//placehold.it/800x980" class="img-fluid w-100" alt="">
+                {% else %}
+                <img src="{{block.settings.banner_img|img_url:'master'}}" class="img-fluid w-100" alt="Banner">
+                {% endif %}
+              </a>
+            </div>
+            {% endif %}
+            {% endfor %}
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+
+</style>
+
+{% schema %}
+{
+  "name": "Slideshow v4",
+  "class": "index-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Space"
+    },
+    {
+      "type": "text",
+      "id": "margin_top",
+      "label": "Margin Top",
+      "info": "Defined in pixels. Do not add the 'px' unit."
+    },
+    {
+      "type": "text",
+      "id": "margin_bottom",
+      "label": "Margin Bottom",
+      "info": "Defined in pixels. Do not add the 'px' unit."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "slideshow",
+      "name": "Image slide",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "slider_image",
+          "info": "570 x 340px recommended",
+          "label": "Background Image"
+        },
+        {
+          "type": "url",
+          "id": "slider_url",
+          "label": "URL",
+          "default": "/collections/all"
+        },
+        {
+          "type": "header",
+          "content": "Content"
+        },
+        {
+          "type": "header",
+          "content": "Title"
+        },
+        {
+          "type": "text",
+          "id": "slider_title",
+          "label": "Title",
+          "default": "Set Yourself Apart"
+        },
+        {
+          "type": "header",
+          "content": "Description"
+        },
+        {
+          "type": "textarea",
+          "id": "slider_description",
+          "label": "Description",
+          "default": "Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit sed quia consequuntur magni dolores eos qui ratione. Ut enim ad minima veniam?"
+        },
+        {
+          "type": "color",
+          "id": "color_slider",
+          "label": "Color slider",
+          "default": "#222"
+        },
+        {
+          "type": "header",
+          "content": "Banner"
+        },
+        {
+          "type": "image_picker",
+          "id": "banner_img",
+          "info": "800 x 980px recommended",
+          "label": "Banner Image"
+        },
+        {
+          "type": "url",
+          "id": "banner_url",
+          "label": "Banner URL",
+          "default": "/collections/all"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Slideshow v4",
+      "category": "Home 4",
+      "blocks": [
+        {
+          "type": "slideshow",
+          "settings": {
+            "slider_title": "Set Yourself Apart",
+            "slider_description": "Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit sed quia consequuntur magni dolores eos qui ratione. Ut enim ad minima veniam?"
+          }
+        },
+        {
+          "type": "slideshow",
+          "settings": {
+            "slider_title": "Women's Originals",
+            "slider_description": "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
+          }
+        },
+        {
+          "type": "slideshow",
+          "settings": {
+            "slider_title": "Men's Originals",
+            "slider_description": "Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit sed quia consequuntur magni dolores eos qui ratione. Ut enim ad minima veniam?"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

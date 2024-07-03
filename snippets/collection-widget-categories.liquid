@@ -1,0 +1,30 @@
+<div class="widget widget-category">
+  <h2 class="widget-title">{{section.settings.widget_cate_title}}</h2>
+  <div class="widget-content">
+    <ul class="list-category-toggle toggle-tab list-unstyled">
+      {% if section.settings.select_menu_cate != blank %}
+      {% for link in linklists[section.settings.select_menu_cate].links %}
+      {% if link.levels == 0 %}
+      <li class="item-toggle-tab">
+        <a class="toggle-tab-title" href="{{link.url}}">{{link.title}}</a>
+      </li>
+      {% else %}
+      <li class="item-toggle-tab">
+        <a class="toggle-tab-title" data-toggle="collapse" href="#toggle-tab-content">{{link.title}}
+          <i class="ti-angle-right"></i>
+        </a>
+        <div id="toggle-tab-content" class="collapse">
+          <ul class="list-unstyled">
+            {% for childlink in link.links %}
+            <li><a href="{{childlink.url}}">{{childlink.title}}</a></li>
+            {% endfor %}
+          </ul>
+        </div>
+      </li>
+      {% endif %}
+      {% endfor %}
+      {% endif %}
+    </ul>
+  </div>
+</div>
+  <!-- END WIDGET CATEGORIES -->

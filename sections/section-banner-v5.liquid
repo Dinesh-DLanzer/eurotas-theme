@@ -1,0 +1,232 @@
+<div data-section-id="{{ section.id }}" data-section-type="section-banner-v5" style="{% if section.settings.margin_top != blank %}margin-top: {{section.settings.margin_top}}px;{%endif%} {% if section.settings.margin_bottom != blank %}margin-bottom: {{section.settings.margin_bottom}}px;{% endif %} {% if section.settings.sections_layout == "dark" %}background: {{section.settings.sections_bg_color}};{% endif %}">
+  <div class="section-banner-v5">
+    <div class="container-fluid my-container">
+      <div class="banner-v5">
+        <div class="banner-left order-2 order-lg-1">
+          <div class="row">
+            <div class="col-xl-4 col-12">
+            </div>
+            <div class="col-xl-8 col-12">
+              <div class="banner-1 banner-item style2">
+                <a href="{{section.settings.banner_url1}}" class="d-block text-right img-url">
+                  {% if section.settings.banner_img1 == blank %}
+                  <img src="//placehold.it/570x400" class="img-fluid w-100" alt="">
+                  {% else %}
+                  <img src="{{section.settings.banner_img1|img_url:'master'}}" class="img-fluid" alt="Banner">
+                  {% endif %}
+                </a>
+                <div class="banner-info">
+                  <h5>{{section.settings.banner_title1}}</h5>
+                  <a href="{{section.settings.btn_url1}}" class="btn-banner">{{section.settings.btn_name1}}<i class="lnr lnr-arrow-right"></i></a>
+                </div> 
+              </div>
+            </div>
+          </div>
+          <div class="banner-2 banner-item style2">
+            <a href="{{section.settings.banner_url2}}" class="d-block img-url">
+              {% if section.settings.banner_img2 == blank %}
+              <img src="//placehold.it/870x431" class="img-fluid w-100" alt="">
+              {% else %}
+              <img src="{{section.settings.banner_img2|img_url:'master'}}" class="img-fluid w-100" alt="Banner">
+              {% endif %}
+            </a>
+            <div class="banner-info">
+              <h5>{{section.settings.banner_title2}}</h5>
+              <a href="{{section.settings.btn_url2}}" class="btn-banner">{{section.settings.btn_name2}}<i class="lnr lnr-arrow-right"></i></a>
+            </div> 
+          </div>
+        </div>
+        <div class="banner-right order-1 order-lg-2">
+          <div class="section-title col-xl-8 text-right float-right p-0">
+            <h2>{{section.settings.section_title}}</h2>
+            <p>{{section.settings.section_description}}</p>
+          </div>
+          <div class="banner-item style2">
+            <a href="{{section.settings.banner_url3}}" class="d-block img-url">
+              {% if section.settings.banner_img3 == blank %}
+              <img src="//placehold.it/670x960" class="img-fluid w-100" alt="">
+              {% else %}
+              <img src="{{section.settings.banner_img3|img_url:'master'}}" class="img-fluid w-100" alt="Banner">
+              {% endif %}
+            </a>
+            <div class="banner-info">
+              <h5>{{section.settings.banner_title3}}</h5>
+              <a href="{{section.settings.btn_url3}}" class="btn-banner">{{section.settings.btn_name3}}<i class="lnr lnr-arrow-right"></i></a>
+            </div> 
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% schema %}
+{
+  "name": "Banner v5",
+  "class": "index-section",
+  "settings": [
+	{
+	  "type": "header",
+	  "content": "Section title"
+	},
+    {
+      "type": "text",
+      "id": "section_title",
+      "label": "Title",
+      "default": "Our Categories"
+    },
+    {
+      "type": "textarea",
+      "id": "section_description",
+      "label": "Description",
+      "default": "Proin hendrerit nisi neque, non scelerisque ex bibendum non. Aliquam vehicula magna justo, eu hendrerit lacus."
+    },
+	{
+	  "type": "header",
+	  "content": "Banner left"
+	},
+	{
+	  "type": "header",
+	  "content": "Banner 1"
+	},
+    {
+      "type": "image_picker",
+      "id": "banner_img1",
+      "info": "570 x 400px recommended",
+      "label": "Banner Image"
+    },
+    {
+      "type": "url",
+      "id": "banner_url1",
+      "label": "Banner URL",
+      "default": "/collections/all"
+    },
+	{
+	  "type": "header",
+	  "content": "Banner 1 info"
+	},
+    {
+      "type": "text",
+      "id": "banner_title1",
+      "label": "Title",
+      "default": "# Men's"
+    },
+    {
+      "type": "text",
+      "id": "btn_name1",
+      "label": "Button name",
+      "default": "View more"
+    },
+    {
+      "type": "url",
+      "id": "btn_url1",
+      "label": "Button URL",
+      "default": "/collections/all"
+    },
+	{
+	  "type": "header",
+	  "content": "Banner 2"
+	},
+    {
+      "type": "image_picker",
+      "id": "banner_img2",
+      "info": "870 x 431px recommended",
+      "label": "Banner Image"
+    },
+    {
+      "type": "url",
+      "id": "banner_url2",
+      "label": "Banner URL",
+      "default": "/collections/all"
+    },
+	{
+	  "type": "header",
+	  "content": "Banner 2 info"
+	},
+    {
+      "type": "text",
+      "id": "banner_title2",
+      "label": "Title",
+      "default": "# Sports"
+    },
+    {
+      "type": "text",
+      "id": "btn_name2",
+      "label": "Button name",
+      "default": "View more"
+    },
+    {
+      "type": "url",
+      "id": "btn_url2",
+      "label": "Button URL",
+      "default": "/collections/all"
+    },
+	{
+	  "type": "header",
+	  "content": "Banner right"
+	},
+    {
+      "type": "image_picker",
+      "id": "banner_img3",
+      "info": "670 x 960px recommended",
+      "label": "Banner Image"
+    },
+    {
+      "type": "url",
+      "id": "banner_url3",
+      "label": "Banner URL",
+      "default": "/collections/all"
+    },
+	{
+	  "type": "header",
+	  "content": "Banner right info"
+	},
+    {
+      "type": "text",
+      "id": "banner_title3",
+      "label": "Title",
+      "default": "# Women's"
+    },
+    {
+      "type": "text",
+      "id": "btn_name3",
+      "label": "Button name",
+      "default": "View more"
+    },
+    {
+      "type": "url",
+      "id": "btn_url3",
+      "label": "Button URL",
+      "default": "/collections/all"
+    },
+    {
+      "type": "header",
+      "content": "Section Space"
+    },
+    {
+      "type": "text",
+      "id": "margin_top",
+      "label": "Margin Top",
+      "info": "Defined in pixels. Do not add the 'px' unit."
+    },
+    {
+      "type": "text",
+      "id": "margin_bottom",
+      "label": "Margin Bottom",
+      "info": "Defined in pixels. Do not add the 'px' unit."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Banner v5",
+      "category": "Home 3"
+    }
+  ]
+}
+{% endschema %}
+
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

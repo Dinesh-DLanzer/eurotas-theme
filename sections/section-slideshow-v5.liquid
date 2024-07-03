@@ -1,0 +1,178 @@
+<div data-section-id="{{ section.id }}" data-section-type="section-slideshow-v5" style="{% if section.settings.margin_top != blank %}margin-top: {{section.settings.margin_top}}px;{%endif%} {% if section.settings.margin_bottom != blank %}margin-bottom: {{section.settings.margin_bottom}}px;{% endif %} {% if section.settings.sections_layout == "dark" %}background: {{section.settings.sections_bg_color}};{% endif %}">
+  <div class="section-slideshow-v5">
+    <div class="slider-v5 js-slideshow-v5">
+      {% for block in section.blocks %}
+      {% if block.type == "slideshow" %}
+      <div class="position-relative">
+        <div class="img-slider" >
+          <a href="{{block.settings.slider_url}}" class="d-block">
+            {% if block.settings.slider_bg == blank %}
+            <img src="//placehold.it/1920x930" alt="image">
+            {% else %}
+            <img src="{{block.settings.slider_bg | img_url:'master'}}" class="img-responsive" alt="image">
+            {% endif %}
+          </a>
+        </div>
+        <div class="box-slide-info">
+          <div class="slider-info">
+            {% if block.settings.slider_title != blank %}
+            <h2 style="color:{{block.settings.color_slider}}">{{block.settings.slider_title}}</h4>
+            {% endif %}
+
+            {% if block.settings.slider_description != blank %}
+            <p style="color:{{block.settings.color_slider}}">{{block.settings.slider_description}}</p>
+            {% endif %}
+          </div>
+
+        </div>
+      </div>
+      {% endif %}
+      {% endfor %}
+    </div>
+    <div class="social d-none d-lg-inline-flex">
+      {% for block in section.blocks %}
+      {% if block.type == "social" %}
+      <a href="{{block.settings.social_url}}" class="d-block">
+        {{block.settings.social_name}}
+      </a>
+      {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% schema %}
+{
+  "name": "Slideshow v5",
+  "class": "index-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Space"
+    },
+    {
+      "type": "text",
+      "id": "margin_top",
+      "label": "Margin Top",
+      "info": "Defined in pixels. Do not add the 'px' unit."
+    },
+    {
+      "type": "text",
+      "id": "margin_bottom",
+      "label": "Margin Bottom",
+      "info": "Defined in pixels. Do not add the 'px' unit."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "slideshow",
+      "name": "Image slide",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "slider_bg",
+          "info": "1920 x 930px recommended",
+          "label": "Background Image"
+        },
+        {
+          "type": "url",
+          "id": "slider_url",
+          "label": "Background URL",
+          "default": "/collections/all"
+        },
+        {
+          "type": "text",
+          "id": "slider_title",
+          "label": "Title",
+          "default": "Explosive Reaction"
+        },
+        {
+          "type": "textarea",
+          "id": "slider_description",
+          "label": "Description",
+          "default": "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
+        },
+        {
+          "type": "color",
+          "id": "color_slider",
+          "label": "Color slider",
+          "default": "#222"
+        }
+      ]
+    },
+    {
+      "type": "social",
+      "name": "Social name",
+      "settings": [
+        {
+          "type": "url",
+          "id": "social_url",
+          "label": "Social url"
+        },
+        {
+          "type": "text",
+          "id": "social_name",
+          "label": "Social name"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Slideshow v5",
+      "category": "Home 5",
+      "blocks": [
+        {
+          "type": "slideshow",
+          "settings": {
+            "slider_title": "Explosive Reaction",
+            "slider_description": "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
+          }
+        },
+        {
+          "type": "slideshow",
+          "settings": {
+            "slider_title": "New Collection",
+            "slider_description": "Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit sed quia consequuntur magni dolores eos qui ratione."
+          }
+        },
+        {
+          "type": "slideshow",
+          "settings": {
+            "slider_title": "New Sneaker",
+            "slider_description": "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
+          }
+        },
+        {
+          "type": "social",
+          "settings": {
+            "social_name": "Facebook"
+          }
+        },
+        {
+          "type": "social",
+          "settings": {
+            "social_name": "Twitter"
+          }
+        },
+        {
+          "type": "social",
+          "settings": {
+            "social_name": "Instagram"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

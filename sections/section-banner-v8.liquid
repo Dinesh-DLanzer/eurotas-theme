@@ -1,0 +1,269 @@
+<div data-section-id="{{ section.id }}" data-section-type="section-banner-v8" style="{% if section.settings.margin_top != blank %}margin-top: {{section.settings.margin_top}}px;{%endif%} {% if section.settings.margin_bottom != blank %}margin-bottom: {{section.settings.margin_bottom}}px;{% endif %} {% if section.settings.sections_layout == "dark" %}background: {{section.settings.sections_bg_color}};{% endif %}">
+  <div class="section-banner-v8">
+    <div class="container-fluid my-container">
+      <div class="banner-v8">
+        <div class="banner-left">
+          <div class="row">
+            <div class="banner-1 col-sm-6 col-12">
+              <a href="{{section.settings.banner_url1}}" class="d-block">
+                {% if section.settings.banner_img1 == blank %}
+                <img src="//placehold.it/470x500" class="img-fluid w-100" alt="">
+                {% else %}
+                <img src="{{section.settings.banner_img1|img_url:'master'}}" class="img-fluid w-100" alt="Banner">
+                {% endif %}
+              </a>
+              <div class="banner-info text-center">
+                <h5>{{section.settings.banner_sub_title1}}</h5>
+                  <h2>{{section.settings.banner_title1}}</h2>
+              </div> 
+            </div>
+            <div class="banner-2 col-sm-6 col-12">
+              <a href="{{section.settings.banner_url2}}" class="d-block">
+                {% if section.settings.banner_img2 == blank %}
+                <img src="//placehold.it/470x500" class="img-fluid w-100" alt="">
+                {% else %}
+                <img src="{{section.settings.banner_img2|img_url:'master'}}" class="img-fluid w-100" alt="Banner">
+                {% endif %}
+              </a>
+              <div class="banner-info text-center">
+                <h5>{{section.settings.banner_sub_title2}}</h5>
+                  <h2>{{section.settings.banner_title2}}</h2>
+                  <p>{{section.settings.banner_2_content}}</p>
+                  <a href="{{section.settings.btn_url2}}" class="button-name">{{section.settings.btn_name2}}</a>
+              </div> 
+            </div>
+          </div>
+          <div class="banner-3">
+            <a href="{{section.settings.banner_url3}}" class="d-block">
+              {% if section.settings.banner_img3 == blank %}
+              <img src="//placehold.it/970x500" class="img-fluid w-100" alt="">
+              {% else %}
+              <img src="{{section.settings.banner_img3|img_url:'master'}}" class="img-fluid w-100" alt="Banner">
+              {% endif %}
+            </a>
+            <div class="box-banner-info">
+              <div class="banner-info">
+                <h5><a href="{{section.settings.banner_3_url}}">{{section.settings.banner_title3}}</a></h5>
+                <p>{{section.settings.banner_3_content}}</p>
+              </div> 
+            </div>
+          </div>
+        </div>
+        <div class="banner-right">
+          <a href="{{section.settings.banner_url4}}" class="d-block">
+            {% if section.settings.banner_img4 == blank %}
+            <img src="//placehold.it/570x1030" class="img-fluid w-100" alt="">
+            {% else %}
+            <img src="{{section.settings.banner_img4|img_url:'master'}}" class="img-fluid w-100" alt="Banner">
+            {% endif %}
+          </a>
+          <div class="box-banner-info">
+            <div class="banner-info">
+              <h5><a href="{{section.settings.banner_4_url}}">{{section.settings.banner_title4}}</a></h5>
+              <p>{{section.settings.banner_4_content}}</p>
+            </div> 
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% schema %}
+{
+  "name": "Banner v8",
+  "class": "index-section",
+  "settings": [
+	{
+	  "type": "header",
+	  "content": "Banner left"
+	},
+	{
+	  "type": "header",
+	  "content": "Banner 1"
+	},
+    {
+      "type": "image_picker",
+      "id": "banner_img1",
+      "info": "470 x 500px recommended",
+      "label": "Banner Image"
+    },
+    {
+      "type": "url",
+      "id": "banner_url1",
+      "label": "Banner URL",
+      "default": "/collections/all"
+    },
+	{
+	  "type": "header",
+	  "content": "Banner 1 info"
+	},
+    {
+      "type": "text",
+      "id": "banner_sub_title1",
+      "label": "Sub Title",
+      "default": "Running Shoes"
+    },
+    {
+      "type": "text",
+      "id": "banner_title1",
+      "label": "Title",
+      "default": "Nike Just Do It"
+    },
+	{
+	  "type": "header",
+	  "content": "Banner 2"
+	},
+    {
+      "type": "image_picker",
+      "id": "banner_img2",
+      "info": "470 x 500px recommended",
+      "label": "Banner Image"
+    },
+    {
+      "type": "url",
+      "id": "banner_url2",
+      "label": "Banner URL",
+      "default": "/collections/all"
+    },
+	{
+	  "type": "header",
+	  "content": "Banner 2 info"
+	},
+    {
+      "type": "text",
+      "id": "banner_sub_title2",
+      "label": "Sub Title",
+      "default": "Hello Summer 2019"
+    },
+    {
+      "type": "text",
+      "id": "banner_title2",
+      "label": "Title",
+      "default": "Sale 50%Off"
+    },
+    {
+      "type": "textarea",
+      "id": "banner_2_content",
+      "label": "Content",
+      "default": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque."
+    },
+    {
+      "type": "text",
+      "id": "btn_name2",
+      "label": "Button name",
+      "default": "View more"
+    },
+    {
+      "type": "url",
+      "id": "btn_url2",
+      "label": "Button URL",
+      "default": "/collections/all"
+    },
+	{
+	  "type": "header",
+	  "content": "Banner 3"
+	},
+    {
+      "type": "image_picker",
+      "id": "banner_img3",
+      "info": "970 x 500px recommended",
+      "label": "Banner Image"
+    },
+    {
+      "type": "url",
+      "id": "banner_url3",
+      "label": "Banner URL",
+      "default": "/collections/all"
+    },
+	{
+	  "type": "header",
+	  "content": "Banner 3 info"
+	},
+    {
+      "type": "text",
+      "id": "banner_title3",
+      "label": "Title",
+      "default": "# Kid's"
+    },
+    {
+      "type": "url",
+      "id": "banner_3_url",
+      "label": "URL",
+      "default": "/collections/all"
+    },
+    {
+      "type": "text",
+      "id": "banner_3_content",
+      "label": "Content",
+      "default": "(100 Items)"
+    },
+	{
+	  "type": "header",
+	  "content": "Banner right"
+	},
+    {
+      "type": "image_picker",
+      "id": "banner_img4",
+      "info": "570 x 1030px recommended",
+      "label": "Banner Image"
+    },
+    {
+      "type": "url",
+      "id": "banner_url4",
+      "label": "Banner URL",
+      "default": "/collections/all"
+    },
+	{
+	  "type": "header",
+	  "content": "Banner right info"
+	},
+    {
+      "type": "text",
+      "id": "banner_title4",
+      "label": "Title",
+      "default": "# Women's"
+    },
+    {
+      "type": "url",
+      "id": "banner_4_url",
+      "label": "URL",
+      "default": "/collections/all"
+    },
+    {
+      "type": "text",
+      "id": "banner_4_content",
+      "label": "Content",
+      "default": "(185 Items)"
+    },
+    {
+      "type": "header",
+      "content": "Section Space"
+    },
+    {
+      "type": "text",
+      "id": "margin_top",
+      "label": "Margin Top",
+      "info": "Defined in pixels. Do not add the 'px' unit."
+    },
+    {
+      "type": "text",
+      "id": "margin_bottom",
+      "label": "Margin Bottom",
+      "info": "Defined in pixels. Do not add the 'px' unit."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Banner v8",
+      "category": "Home 5"
+    }
+  ]
+}
+{% endschema %}
+
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

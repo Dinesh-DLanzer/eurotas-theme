@@ -1,0 +1,189 @@
+<div data-section-id="{{ section.id }}" data-section-type="section-service-v1" style="{% if section.settings.margin_top != blank %}margin-top: {{section.settings.margin_top}}px;{%endif%} {% if section.settings.margin_bottom != blank %}margin-bottom: {{section.settings.margin_bottom}}px;{% endif %} {% if section.settings.sections_layout == "dark" %}background: {{section.settings.sections_bg_color}};{% endif %}">
+  <div class="section-service-v1">
+    <div class="container-fluid my-container">
+      <div class="service-v1 row">
+        <div class="col-xl-3 col-lg-6 col-sm-6 col-12">
+          <div class="service">
+          <a href="{{section.settings.ser_url1}}" class="{{section.settings.ser_icon1}}">
+          </a>
+          <div class="service-info">
+            <h4 class="mb-0 text-capitilaze">{{section.settings.ser_title1}}</h4>
+            <p class="mb-0">{{section.settings.ser_content1}}</p>
+          </div>
+          </div>
+        </div>
+        <div class="col-xl-3 col-lg-6 col-sm-6 col-12">
+          <div class="service">
+          <a href="{{section.settings.ser_url2}}" class="{{section.settings.ser_icon2}}">
+          </a>
+          <div class="service-info">
+            <h4 class="mb-0 text-capitilaze">{{section.settings.ser_title2}}</h4>
+            <p class="mb-0">{{section.settings.ser_content2}}</p>
+          </div>
+          </div>
+        </div>
+        <div class="col-xl-3 col-lg-6 col-sm-6 col-12">
+          <div class="service">
+          <a href="{{section.settings.ser_url3}}" class="{{section.settings.ser_icon3}}">
+          </a>
+          <div class="service-info">
+            <h4 class="mb-0 text-capitilaze">{{section.settings.ser_title3}}</h4>
+            <p class="mb-0">{{section.settings.ser_content3}}</p>
+          </div>
+          </div>
+        </div>
+        <div class="col-xl-3 col-lg-6 col-sm-6 col-12">
+          <div class="service">
+          <a href="{{section.settings.ser_url4}}" class="{{section.settings.ser_icon4}}">
+          </a>
+          <div class="service-info">
+            <h4 class="mb-0 text-capitilaze">{{section.settings.ser_title4}}</h4>
+            <p class="mb-0">{{section.settings.ser_content4}}</p>
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% schema %}
+{
+  "name": "Service v1",
+  "class": "index-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Service config"
+    },
+    {
+      "type": "text",
+      "id": "ser_icon1",
+      "label": "Icon 1",
+      "info": "[Get icon here](https://aalmiray.github.io/ikonli/cheat-sheet-themify.html)",
+      "default": "ti-truck"
+    },
+    {
+      "type": "url",
+      "id": "ser_url1",
+      "label": "URL 1",
+      "default": "/collections/all"
+    },
+    {
+      "type": "text",
+      "id": "ser_title1",
+      "label": "Title 1",
+      "default": "Free shipping"
+    },
+    {
+      "type": "text",
+      "id": "ser_content1",
+      "label": "Content 1",
+      "default": "Free shipping on all UK order"
+    },
+    {
+      "type": "text",
+      "id": "ser_icon2",
+      "label": "Icon 2",
+      "info": "[Get icon here](https://aalmiray.github.io/ikonli/cheat-sheet-themify.html)",
+      "default": "ti-reload"
+    },
+    {
+      "type": "url",
+      "id": "ser_url2",
+      "label": "URL 2",
+      "default": "/collections/all"
+    },
+    {
+      "type": "text",
+      "id": "ser_title2",
+      "label": "Title 2",
+      "default": "Valuable Gifts"
+    },
+    {
+      "type": "text",
+      "id": "ser_content2",
+      "label": "Content 2",
+      "default": "Free gift after every 10 order"
+    },
+    {
+      "type": "text",
+      "id": "ser_icon3",
+      "label": "Icon 3",
+      "info": "[Get icon here](https://aalmiray.github.io/ikonli/cheat-sheet-themify.html)",
+      "default": "ti-alarm-clock"
+    },
+    {
+      "type": "url",
+      "id": "ser_url3",
+      "label": "URL 3",
+      "default": "/collections/all"
+    },
+    {
+      "type": "text",
+      "id": "ser_title3",
+      "label": "Title 3",
+      "default": "All Day Support"
+    },
+    {
+      "type": "text",
+      "id": "ser_content3",
+      "label": "Content 3",
+      "default": "Call us for free: +01 234 567 89"
+    },
+    {
+      "type": "text",
+      "id": "ser_icon4",
+      "label": "Icon 4",
+      "info": "[Get icon here](https://aalmiray.github.io/ikonli/cheat-sheet-themify.html)",
+      "default": "icon-ecommerce-sale"
+    },
+    {
+      "type": "url",
+      "id": "ser_url4",
+      "label": "URL 4",
+      "default": "/collections/all"
+    },
+    {
+      "type": "text",
+      "id": "ser_title4",
+      "label": "Title 4",
+      "default": "Seasonal Sale"
+    },
+    {
+      "type": "text",
+      "id": "ser_content4",
+      "label": "Content 4",
+      "default": "Discounts up to 50% on all"
+    },
+    {
+      "type": "header",
+      "content": "Section Space"
+    },
+    {
+      "type": "text",
+      "id": "margin_top",
+      "label": "Margin Top",
+      "info": "Defined in pixels. Do not add the 'px' unit."
+    },
+    {
+      "type": "text",
+      "id": "margin_bottom",
+      "label": "Margin Bottom",
+      "info": "Defined in pixels. Do not add the 'px' unit."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Service v1",
+      "category": "Home 2"
+    }
+  ]
+}
+{% endschema %}
+
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

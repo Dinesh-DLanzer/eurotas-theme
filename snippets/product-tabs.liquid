@@ -1,0 +1,58 @@
+{% if section.settings.enable_alltab %}
+<div class="detail-tabs">
+  <div class="detail-tab-title">
+    <ul class="list-tag-detail js-list-tag-detail list-unstyled d-inline-flex">
+      {% if section.settings.enable_description_tab %}
+      <li class="active"><a href="javascript:void(0)" data-toggle="tab1">{{section.settings.destab_title}}</a></li>
+      {% endif %}
+
+      {% if section.settings.enable_custom_tab %}
+      <li><a href="javascript:void(0)" data-toggle="tab2">{{section.settings.customtab_title}}</a></li>
+      {% endif %}
+
+      {% if section.settings.enable_review_tab %}
+      <li><a href="javascript:void(0)" data-toggle="tab3">{{section.settings.reviewtab_title}}</a></li>
+      {% endif %}
+    </ul>
+  </div>
+  <div class="detail-tab-content js-detail-tab-content">
+    <div class="tab-content">
+      {% if section.settings.enable_description_tab %}
+      <div id="tab1" class="tab-pane active">
+        <div class="detail-tab-desc clearfix">
+          {{product.description}}
+        </div>
+      </div>
+      {% endif %}
+
+      {% if section.settings.enable_custom_tab %}
+      <div id="tab2" class="tab-pane">
+        {% if section.settings.custom_tab_option == "ct_ops_image1" %}
+
+        {% if section.settings.ct_option_11 != blank %}
+        <img src="{{ section.settings.ct_option_11 | img_url: "master" }}"/>
+        {% else %}
+        {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+        {% endif %}
+
+        {% elsif section.settings.custom_tab_option == "ct_ops_html1" %}
+        {{ section.settings.ct_option_21 }}
+
+        {% elsif section.settings.custom_tab_option == "ct_ops_page1" %}
+        {% assign page_handle = section.settings.ct_option_31 %}
+        {{ pages[page_handle].content }}
+        {% endif %}
+      </div>
+      {% endif %}
+
+      {% if section.settings.enable_review_tab %}
+      <div id="tab3" class="tab-pane">
+        <div id="shopify-product-reviews" data-id="{{product.id}}">{{ product.metafields.spr.reviews }}</div>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endif %}
+
+

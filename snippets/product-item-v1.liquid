@@ -1,0 +1,131 @@
+{% assign product_label_new = false %}
+{% capture _time %}{{settings.product_new_time | times:86400}}{% endcapture %} 
+{% assign time = _time|plus:0 %}
+{% assign now = 'now' | date: '%s'|plus:0 %}
+
+{% capture _value %}{{product.published_at | date: "%s" | plus : time }}{% endcapture %} 
+{% assign value = _value|plus:0 %}
+
+{% if now < value %}
+{% assign product_label_new = true %}
+{% endif %}
+
+{% assign label_hot = false %}
+{% if product.tags contains "Hot" %}
+{% assign label_hot = true %}
+{% endif %} 
+
+{% assign on_sale = false %}
+{% if product.compare_at_price > product.price %}
+{% assign on_sale = true %}
+{% endif %}
+
+{% assign sold_out = true %}
+{% if product.available %}
+{% assign sold_out = false %}
+{% endif %}
+
+<div class="col-12">
+  <div class="product-item-v1" id="itemv1_{{product.id}}">
+    <div class="product">
+      <div class="product-image">
+
+        <div class="product-mid {% if product.images.size > 2 %}js-mid-bt{% endif %}">
+          {% for image in product.images %}
+          {% assign check_img = image.src | split: '.' | last | split: '?' | first %}
+          {% if check_img == 'jpg' or check_img == 'pjpg' %}
+          <div class="">
+            <a href="{{ product.url}}">
+              <img src="{{ image.src | product_img_url: 'master' }}" alt="{{product.title}}" class="engoj_img_main img-fluid w-100">
+            </a>
+          </div>
+          {% endif %}
+          {% endfor %}
+        </div>
+        <div class="product-icon justify-content-center d-flex">
+          <div class="add-to-cart-button">
+            {% if sold_out %}
+            <a href="{{ product.url | within: collection }}" class="text-center d-inline-block {{settings.pia_sold}}"></a>
+            {% else %}
+            {% if product.variants.size > 1 %}
+            <a href="{{ product.url | within: collection }}" class="text-center d-inline-block {{settings.pia_selectoption}}"></a>
+            {% else %}
+            <form method="post" action="/cart/add" class="add-to-cart d-inline-block">
+              <input type="hidden" name="id" value="{{ product.variants.first.id }}" />
+              <button type="submit" name="add" id="AddToCart{{ product.id }}" class="enj-add-to-cart-btn">
+                <i class="{{settings.pia_addcart}}"></i>
+              </button>
+            </form>
+            {% endif %}
+            {% endif %}
+          </div>
+          <div class="quick-view d-none d-md-inline-block">
+            <a href="javascript:void(0)" data-id="{{ product.handle }}" class="engoj_btn_quickview"><i class="{{settings.pia_quickview}}"></i></a>
+          </div>
+          <div class="wish-list d-none d-md-inline-block">
+            {% include 'add-wishlist' %}
+          </div>
+        </div>
+      </div>
+      {% if settings.show_new_label and product_label_new == true %}
+      <div class="product-bubble product-bubble-right d-flex flex-column align-items-center" style="background-color:{{settings.new_label_color}}">
+        <span>{{settings.new_label_name}}</span>   
+      </div>
+      {% endif %}
+
+      {% if settings.show_hot_label and label_hot %}
+      <div class="product-bubble product-bubble-right d-flex flex-column align-items-center" style="background-color:{{settings.hot_label_color}}">
+        <span>{{settings.hot_label_name}}</span>
+      </div>
+      {% endif %}
+      {% if settings.show_sale_label and on_sale %}
+      <div class="product-bubble product-bubble-right d-flex flex-column align-items-center" style="background-color:{{settings.sale_label_color}}">
+        <span>-{% if product.compare_at_price_max > product.price %}{{ product.compare_at_price_min | minus: product.price | times: 100.0 | divided_by: product.compare_at_price_min | money_without_currency | times: 100 | replace: '.0', ''}}%{% endif %}</span>
+      </div>
+      {% endif %}
+
+      <div class="product-info">
+        {% if product.images.size > 2 %}
+        <div class="overflow-hidden engoc-slick-thumb-hover">
+          <div class="product-thumbnail js-product-thumbnail-bt">
+            {% assign check_imgs = 1 %}
+            {% for image in product.images %}
+            {% assign check_img = image.src | split: '.' | last | split: '?' | first %}
+            {% if check_img == 'jpg' or check_img == 'pjpg' %}
+            {% assign check_imgs = check_imgs | plus: 1 %}
+            {% endif %}
+            {% endfor %}
+            {% if check_imgs > 1 %}
+            {% for image in product.images %}
+            {% assign check_img = image.src | split: '.' | last | split: '?' | first %}
+            {% if check_img == 'jpg' or check_img == 'pjpg' %}
+            <div class="product-thumbnail-item engoj-nav-item">
+              <img src="{{ image.src | product_img_url: 'master' }}" alt="{{product.title}}" class="img-fluid w-100">
+            </div>
+            {% endif %}
+            {% endfor %}
+            {% endif %}
+
+          </div>
+        </div>
+        {% endif %}
+        <div class="info-content">
+          {% if product.type != blank %}
+          <p>{{product.type}}</p>
+          {% endif %}
+          <div class="star-rating {% if product.type == blank %}float-unset{% endif %}" >
+            <span class="shopify-product-reviews-badge" data-id="{{ product.id }}"></span>
+          </div>
+          <h6 class="product-name">
+            <a href="{{ product.url}}" title="{{product.title}}">{{product.title | truncate: 20}}</a>
+          </h6>
+          <span class="product-price">
+            {% capture price %}{{ product.price | money_without_trailing_zeros }}{% endcapture %}
+            <ins>{% if product.price_varies %}{{ 'products.general.from_text_html' | t: price: price }}{% else %}{{ price }}{% endif %}</ins>
+            {% if on_sale %}<del>{{ product.compare_at_price | money_without_trailing_zeros }}</del>{% endif %}
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

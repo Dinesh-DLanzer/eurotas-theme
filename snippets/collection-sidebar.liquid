@@ -1,0 +1,17 @@
+<div class="sidebar sidebar-left engoj-collection-sidebar engoc_sw_filter_tag sidebar-mobile js-sidebar-mobile">
+  {% for i in (1..7) %}
+  {% capture collection_widget %}collection_widget_{{i}}{% endcapture %}
+  {% if section.settings[collection_widget] != blank %}
+  {% include section.settings[collection_widget] %}
+  {% endif %}
+  {% endfor %}
+</div>
+
+<a href="javascript:void(0)" class="button-filter ti-filter d-lg-none d-block js-filter">
+</a>
+<a href="javascript:void(0)" class="change-button-filter ti-close js-close-filter d-none">
+  <i></i>
+</a>
+<div class="js-bg-filter bg-filter-overlay ">
+</div>
+<!-- #secondary -->

@@ -1,0 +1,99 @@
+<!-- /templates/list-collections.liquid -->
+{% comment %}
+
+This page represents the /collections and /products pages.
+It is an optional, but highly recommended, template for your theme.
+
+More info:
+- http://docs.shopify.com/manual/configuration/store-customization/taking-control-of-collections-listing
+
+{% endcomment %}
+{% comment %}
+Loop through each collection, except 'frontpage'
+{% endcomment %}
+<div class="slide-collection-all">
+  <div class="pd-banner">
+    {% if section.settings.banner_collection_img != blank %}
+    <img src="{{section.settings.banner_collection_img | img_url: "master"}}">
+    {% else %}
+    <img src="//placehold.it/1920x500">
+    {% endif %}
+
+    <div class="page-title text-center">
+      <h2>{{section.settings.collections_title}}</h2>
+      {% include 'breadcrumb' %}
+    </div>
+  </div>
+
+  <div class="container-fluid my-container">
+    <div class="list-category row">
+      {% for collection in collections %}
+
+      {% if collection.empty? %}
+      {% comment %}add default state for collection block in theme editor{% endcomment %}
+      {% assign collection_image_url = '' %}
+      {% else %}
+      {% if collection.image %}
+      {% capture collection_image_url %}{{ collection | img_url: 'master' }}{% endcapture %}
+      {% elsif collection.products.first %}
+      {% capture collection_image_url %}{{ collection.products.first | img_url: 'master' }}{% endcapture %}
+      {% endif %}
+      {% endif %}
+
+      <div class="col-sm-4 margin-bottom-30">
+        <div class="img_ef1">
+          <a href="{{ collection.url }}">
+            <img src="{{ collection_image_url }}" alt="{{ collection.title }}" title="{{ collection.title }}">
+          </a>
+        </div>
+        <div class="text-center">
+          <h3 class="mt-15">
+            {{ collection.title }}
+          </h3>
+          <div class="item margin-bottom-20"> {{ collection.all_products_count }} {{ collection.all_products_count | pluralize: 'Item', 'Items' }} total </div>
+
+          <a href="{% if collection.empty? %}#{% else %}{{ collection.url }}{% endif %}" class="shop-button-collection">
+            {{'list_collection.view_more'|t}}
+          </a>
+        </div>
+
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+
+{% schema %}
+{
+"name": "Collections",
+"settings": [
+{
+"type": "header",
+"content": "Banner Breadcrumb"
+},
+{
+"type": "image_picker",
+"id": "banner_collection_img",
+"info": "1920 x 500px recommended",
+"label": "Background image"
+},
+{
+"type": "header",
+"content": "Collections title"
+},
+{
+"type": "text",
+"id": "collections_title",
+"label": "Collections title",
+"default": "All Collection"
+}
+]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

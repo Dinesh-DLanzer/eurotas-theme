@@ -1,0 +1,46 @@
+<div class="blog-list-view col-12">
+  <div class="item-blog-post">
+    <div class="row">
+      <div class="col-lg-6 col-md-6 col-12">
+        <div class="blog-thumb">
+          <a href="{{ article.url }}" class="d-block">
+            <img src="{{ article.image.src | img_url: 'master' }}" alt="{{ article.title }}" class="img-fluid w-100" />
+          </a>
+        </div>
+      </div>
+      <div class="col-lg-6 col-md-6 col-12">
+        <div class="blog-info">
+
+          {% if section.settings.show_comments %}
+          <div class="blog-comment">
+            <i class="ti-comments"></i>
+            <span class="c-black">{{article.comments_count}} Comments</span>
+          </div>
+          {% endif %}
+
+          {% if section.settings.show_datetime %}
+          <div class="blog-meta">
+            <i class="ti-time"></i>
+            <span>Date: {{ article.published_at | date: '%b.%d.%Y' }}</span>
+          </div>
+          {% endif %}
+
+          {% if section.settings.show_author %}
+          <div class="author">
+            BY <a href="{{ article.url }}">{{ article.author }}</a>
+          </div>
+          {% endif %}
+
+          <h3 class="text-capitalize blog-title">
+            <a href="{{ article.url }}">{{ article.title }}</a>
+          </h3>
+
+          {% if section.settings.show_desc %}
+          <p>{{article.content | strip_html | truncate: 50}}</p>
+          {% endif %}
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

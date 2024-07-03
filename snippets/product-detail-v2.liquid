@@ -1,0 +1,111 @@
+<div class="product-detail-v2">
+  <div class="detail-gallery">
+    <div class="mid row js-product-detail-v2">
+      {% assign check_imgs = 1 %}
+      {% for image in product.images %}
+      {% assign check_img = image.src | split: '.' | last | split: '?' | first %}
+      {% if check_img == 'jpg' or check_img == 'pjpg' %}
+      {% assign check_imgs = check_imgs | plus: 1 %}
+      {% endif %}
+      {% endfor %}
+      {% if check_imgs > 1 %}
+      {% for image in product.images %}
+      {% assign check_img = image.src | split: '.' | last | split: '?' | first %}
+      {% if check_img == 'jpg' or check_img == 'pjpg' %}
+      <div class="col-12">
+        <img src="{{ image.src | product_img_url: 'master' }}" alt="{{product.title}}" class="engoj_img_main img-fluid w-100">
+      </div>
+      {% endif %}
+      {% endfor %}
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="detail-info col-lg-6 col-12 p-0">
+    <p class="product-type">{{product.type}}</p>
+    {% if section.settings.show_rating %}
+    <div class="star-rating">
+      <span class="shopify-product-reviews-badge" data-id="{{ product.id }}"></span>
+    </div>
+    {% endif %}
+    <h2 class="product-title">{{product.title}}</h2>
+    {% capture price %}{{ product.price | money }}{% endcapture %}
+    <div class="product-price enj-product-price engoj_price_main">
+      {{price}}
+    </div>
+
+    {% if section.settings.show_sdes %}
+    <div class="product-des">
+      {{ product.description | strip_html | truncatewords: 28}}
+    </div>
+    {% endif %}
+
+    <form  action="/cart/add" method="post" enctype="multipart/form-data" id="AddToCartForm" class="cart clearfix">
+
+      <select name="id" id="productSelect" class="product-single__variants">
+        {% for variant in product.variants %}
+        {% if variant.available %}
+        {% assign sku = variant.sku %}
+        <option {% if variant == product.selected_or_first_available_variant %} selected="selected" {% endif %} data-sku="{{ variant.sku }}" value="{{ variant.id }}">{{ variant.title }} - {{ variant.price | money_with_currency }}</option>
+
+        {% else %}
+        <option disabled="disabled">
+          {{ variant.title }} - {{ 'products.product.sold_out' | t }}
+        </option>
+        {% endif %}
+        {% endfor %}
+      </select>
+
+      <div class="d-flex justify-content-center flex-wrap">
+        {% for option in product.options %}
+        {% if option != 'Title' %}
+        {% include 'swatch' with option %}
+        {% endif %}
+        {% endfor %}
+
+        <div class="quantity style2">
+          <div class="js-qty" {% if section.settings.show_quantity %}{% else %}style="display:none;"{% endif %}>
+            <p>{{ 'products.product.quantity' | t }}</p>
+            <input type="number" size="4" title="Qty" value="1" min="1" id="Quantity" name="quantity" />
+          </div>
+        </div>
+
+
+        <button type="submit" class="shop-button style2 addcart-link enj-add-to-cart-btn engoj-btn-addtocart">
+          {{settings.pia_addcart_name}}
+        </button>
+      </div>
+      {% if section.settings.show_cate %}
+      <div class="item-product-meta-info product-category-info">
+        <label>{{'products.product.categories' | t}}:</label>
+        {% for collection in product.collections %}
+        {% if forloop.last %}
+        <a href="{{collection.url}}">{{ collection.title }}.</a>
+        {% else %}
+        <a href="{{collection.url}}">{{ collection.title }},</a>
+        {% endif %}
+        {% endfor %}
+      </div>
+      {% endif %}
+
+
+      {% if section.settings.show_tag %}
+      <div class="item-product-meta-info">
+        <label>{{'products.product.tags' | t}}:</label>
+        {% for tag in product.tags %}
+        {% if forloop.last %}
+        <a>{{tag}}.</a>
+        {% else %}
+        <a>{{tag}},</a>
+        {% endif %}
+        {% endfor %}
+      </div>
+      {% endif %}
+    </form>
+
+    {% if section.settings.show_social_share %}
+    {% include 'social-share' %}
+    {% endif %}
+
+  </div>
+</div>

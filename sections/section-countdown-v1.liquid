@@ -1,0 +1,358 @@
+<div data-section-id="{{ section.id }}" data-section-type="section-countdownt-v1" style="{% if section.settings.margin_top != blank %}margin-top: {{section.settings.margin_top}}px;{%endif%} {% if section.settings.margin_bottom != blank %}margin-bottom: {{section.settings.margin_bottom}}px;{% endif %} {% if section.settings.sections_layout == "dark" %}background: {{section.settings.sections_bg_color}};{% endif %}">
+  <div class="section-countdown-v1">
+    <div class="container-fluid my-container">
+      {% if section.settings.section_title != blank %}
+      <h2 class="section-title text-center">{{section.settings.section_title}}</h2>
+      {% endif %}
+      <div class="countdown row">
+         <div class="col-lg-5 col-md-6 col-12 order-2 order-md-1">
+          <div class="countdown-info">
+            {% if section.settings.sub_title != blank %}
+            <p class="sub-title text-capitalize">{{section.settings.sub_title}}</p>
+            {% endif %}
+
+            {% if section.settings.title != blank %}
+            <h2>{{section.settings.title}}</h2>
+            {% endif %}
+
+            <div>
+              <span class="countdown-price">{{section.settings.countdown_price}}</span>
+              <span class="countdown-price-compare">{{section.settings.countdown_price_compare}}</span>
+            </div>
+            
+            <div class="countdown-progress">
+              <p>Already Sold: <span id="random_sold_prod"></span></p>
+              <span>Avaiable: {{section.settings.avaiable}}</span>
+            </div>
+            <div class="progress">
+              <div class="progress-bar progress-bar-striped progress-bar-animated"></div>
+            </div>
+
+            {% if section.settings.enable_countdown %}
+            {% if section.settings.section_countdown != blank %}
+            <div class="time" data-countdown="countdown-v1" data-date="{{section.settings.section_countdown}}">
+              
+            </div>
+            {% endif %}
+            {% endif %}
+
+
+          {% if section.settings.button_name != blank %}
+          <a class="button-name style1" href="{{section.settings.btn_url}}">{{section.settings.button_name}}</a>
+          {% endif %}
+        </div>
+
+        </div>
+        
+        <div class="col-lg-7 col-md-6 col-12 order-1 order-md-2">
+          <div class="countdown-image js-lookbook">
+            {% if section.settings.countdown_img == blank %}
+            {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' }}
+            {% else %}
+            <img src="{{section.settings.countdown_img|img_url:'master'}}" class="img-fluid" alt="Banner">
+            {% endif %}
+
+            {% for block in section.blocks %}
+            {% if block.type == "lookbook" %}
+            <div class="lookbook-point js-hover-lookbook" data-hover="{{forloop.index}}" style="background: {{block.settings.bg_lookbook_pin}}; top:{{block.settings.lookbook_point_top}}%;left:{{block.settings.lookbook_point_left}}%">
+              <span></span>
+              <div class="popup-lookbook js-popup-lookbook d-xl-block d-none">
+                <h5>{{block.settings.popup_title}}</h5>
+                <p>{{block.settings.popup_desc}}</p>
+              </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+
+          </div>
+        </div>
+
+
+        <div class="content-popup-lookbook js-popup-lookbook d-xl-none">
+          <div class="popup-lookbook">
+            <div class="row">
+              <div class="col-lg-6 col-sm-6 col-12">
+                <div class="countdown-image">
+                  {% if section.settings.countdown_img == blank %}
+                  {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' }}
+                  {% else %}
+                  <img src="{{section.settings.countdown_img|img_url:'master'}}" class="img-fluid" alt="Banner">
+                  {% endif %}
+
+                  {% for block in section.blocks %}
+                  {% if block.type == "lookbook" %}
+                  <div class="lookbook-point js-hover-lookbook" data-hover="{{forloop.index}}" style="background: {{block.settings.bg_lookbook_pin}}; top:{{block.settings.lookbook_point_top}}%;left:{{block.settings.lookbook_point_left}}%">
+                    <span></span>
+                  </div>
+                  {% endif %}
+                  {% endfor %}
+
+                </div>
+              </div>
+                <div class="col-lg-6 col-sm-6 col-12">
+                  <div class="js-popup-lb-slide">
+                    {% for block in section.blocks %}
+                    {% if block.type == "lookbook" %}
+                    <div class="lookbook-content">
+                      <h5>{{block.settings.popup_title}}</h5>
+                      <p>{{block.settings.popup_desc}}</p>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                  </div>
+                </div>
+              </div>
+            </div>
+          <div class="close-popup-lookbook js-close-popup-lookbook"><i></i></div>
+          <div class="bg-overlay-popup-lookbook js-bg-overlay-popup-lookbook"></div>
+        </div>
+
+       
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  {% for block in section.blocks %}
+  {% if block.type == "lookbook" %}
+  .lookbook-point:after {
+    box-shadow: 0 0 4px {{block.settings.bg_lookbook_pin}};
+  }
+  {% endif %}
+  {% endfor %}
+
+</style>
+
+<script>
+
+  function random(min,max){
+    return Math.floor(Math.random()*(max-min+1)+min);
+  }
+
+  jQuery(document).ready(function($) {
+    var intinal2 = random(0, {{section.settings.avaiable}});
+                          var count2 = intinal2;
+                          document.getElementById('random_sold_prod').innerHTML = count2;
+    $('.progress-bar').css('width', function(){
+      return count2/{{section.settings.avaiable}}*100 + '%';
+    });
+    setInterval(function() {
+      count2 -= 1;
+      if(count2 ==0){
+        count2 = {{section.settings.avaiable}};
+      }
+      document.getElementById('random_sold_prod').innerHTML = count2;
+      $('.progress-bar').css('width', function(){
+        return count2/{{section.settings.avaiable}}*100 + '%';
+      });
+    }, 5000)  
+
+  });
+</script>
+
+
+{% schema %}
+{
+  "name": "Countdown v1",
+  "class": "index-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "section_title",
+      "label": "Section title",
+      "default": "Deal of the week"
+    },
+    {
+      "type": "header",
+      "content": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "countdown_img",
+      "info": "531 x 660px recommended",
+      "label": "Image"
+    },
+    {
+      "type": "header",
+      "content": "Countdown info"
+    },
+    {
+      "type": "text",
+      "id": "sub_title",
+      "label": "Sub Title",
+      "default": "Hot Deal Week"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Crazy Byw Lvl X Pw"
+    },
+    {
+      "type": "text",
+      "id": "countdown_price",
+      "label": "Price",
+      "default": "$200"
+    },
+    {
+      "type": "text",
+      "id": "countdown_price_compare",
+      "label": "Price",
+      "default": "$250"
+    },
+    {
+      "type": "header",
+      "content": "Progress"
+    },
+    {
+      "type": "text",
+      "id": "avaiable",
+      "label": "Avaiable",
+      "info": "Defined in %. Do not add the '%' unit."
+    },
+    {
+      "type": "header",
+      "content": "Countdown"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_countdown",
+      "label": "Enable countdown?",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "section_countdown",
+      "info": "2019-12-12-12-12-12",
+      "label": "Countdown timer format",
+      "default": "2019-12-12-12-12-12"
+    },
+    {
+      "type": "text",
+      "id": "button_name",
+      "label": "Button name",
+      "default": "Order now"
+    },
+    {
+      "type": "url",
+      "id": "btn_url",
+      "label": "Button URL",
+      "default": "/collections/all"
+    },
+    {
+      "type": "header",
+      "content": "Section Space"
+    },
+    {
+      "type": "text",
+      "id": "margin_top",
+      "label": "Margin Top",
+      "info": "Defined in pixels. Do not add the 'px' unit."
+    },
+    {
+      "type": "text",
+      "id": "margin_bottom",
+      "label": "Margin Bottom",
+      "info": "Defined in pixels. Do not add the 'px' unit."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "lookbook",
+      "name": "Lookbook item",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Lookbook pin"
+        },
+        {
+          "type": "color",
+          "id": "bg_lookbook_pin",
+          "label": "Background color pin",
+          "default": "#c50215"
+        },
+        {
+          "type": "header",
+          "content": "Popup description"
+        },
+        {
+          "type": "text",
+          "id": "popup_title",
+          "label": "Title",
+          "default": "Welting"
+        },
+        {
+          "type": "text",
+          "id": "popup_desc",
+          "label": "Title",
+          "default": "It is a long established fact that a reader will be distracted by the readable content."
+        },
+        {
+          "type": "text",
+          "id": "lookbook_point_top",
+          "label": "Margin top",
+          "info": "Defined in %. Do not add the '%' unit."
+        },
+        {
+          "type": "text",
+          "id": "lookbook_point_left",
+          "label": "Margin left",
+          "info": "Defined in %. Do not add the '%' unit."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Countdown v1",
+      "category": "Home 1",
+      "blocks": [
+        {
+          "type": "lookbook",
+          "settings": {
+            "popup_title": "Welting",
+			"popup_desc": "It is a long established fact that a reader will be distracted by the readable content.",
+			"lookbook_point_top": "14",
+			"lookbook_point_left": "72"
+          }
+        },
+        {
+          "type": "lookbook",
+          "settings": {
+            "popup_title": "Falcon",
+			"popup_desc": "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+			"lookbook_point_top": "41",
+			"lookbook_point_left": "27"
+          }
+        },
+        {
+          "type": "lookbook",
+          "settings": {
+            "popup_title": "Spring",
+			"popup_desc": "Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit sed quia consequuntur magni dolores eos qui ratione",
+			"lookbook_point_top": "59",
+			"lookbook_point_left": "59"
+          }
+        },
+        {
+          "type": "lookbook",
+          "settings": {
+            "popup_title": "Welting",
+			"popup_desc": "It is a long established fact that a reader will be distracted by the readable content.",
+			"lookbook_point_top": "92",
+			"lookbook_point_left": "49"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

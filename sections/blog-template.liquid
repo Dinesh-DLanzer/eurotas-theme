@@ -1,0 +1,285 @@
+{% paginate blog.articles by section.settings.blog_content_limit %}
+
+<section>
+  <div class="content-blog">
+    <div class="pd-banner">
+      <a href="{{section.settings.bg_url}}" class="effect_img2">
+        {% if section.settings.bg_img != blank %}
+        <img src="{{section.settings.bg_img|img_url:'master'}}" class="img-fluid" alt="blog">
+        {% else %}
+        <img src="//placehold.it/1920x550" class="img-fluid w-100" alt="">
+        {% endif %}
+      </a>
+      <div class="page-title text-center">
+        <h2>{{section.settings.blog_title}}</h2>
+        {% include 'breadcrumb' %}
+      </div>
+    </div>
+    <div class="main-page">
+      <div class="container-fluid my-container">
+        <div class="row">
+          {% unless section.settings.blog_layout == "blog_layo_none" %}
+          {% if section.settings.blog_layout == "blog_layo_left" %}
+          <div class="col-lg-4 col-xl-3">
+            {% include 'blog-sidebar' %}
+          </div>
+          {% endif %}
+          {% endunless %}
+          <div class="{% if section.settings.blog_layout == "blog_layo_none" %}col-lg-12{% else %} col-lg-8 col-xl-9{% endif %} col-12" style="margin-bottom: 15px;">
+            <div class="content-blog-page">
+              <div class="wrap-bread-crumb">
+                {% include 'breadcrumb' %}
+              </div>
+              <!-- End Bread Crumb -->
+              <div class="search">
+                <form action="/search" class="form-inline">
+                  <input type="hidden" name="type" value="product">
+                  <input class="form-control" name="q" type="search" placeholder="Search..." value="{{ search.terms | escape }}" aria-label="search">
+                  <button type="submit" class="search-submit ti-search">
+                  </button>
+                </form>
+              </div>
+
+
+              <div class="row">
+              {% for article in blog.articles %}
+              {% if section.settings.blog_template == "blog_temp_list" %}
+              {% include 'blog-templace-list' %}
+              {% elsif section.settings.blog_template == "blog_temp_grid" %}
+                {% include 'blog-templace-grid' %}
+              {% endif %}
+              {% endfor %}
+              </div>
+
+
+                {% if paginate.pages > 1 %}
+
+                <div class="text-center pagination d-flex flex-wrap">
+                  <a href="{{paginate.previous.url}}" class="prev"><i class="lnr lnr-arrow-left"></i></a>
+                  <div class="position-relative">
+                  <div id="paginate" data-toggle="dropdown" class="dropdown-toggle position-relative" aria-haspopup="true" aria-expanded="true">Page {{paginate.current_page}}
+                  </div>
+                  <ul class="list-unstyled dropdown-menu position-absolute" aria-labelledby="paginate">
+                    {% for part in paginate.parts %}
+                    <li><a href="{{part.url}}">Page {{part.title}}</a></li>
+                    {% endfor %}
+                  </ul>
+                  </div>
+                  <label>of {{paginate.pages}}</label>
+                    <a href="{{paginate.next.url}}" class="next"><i class="lnr lnr-arrow-right"></i></a>
+                </div>
+                {% endif %}
+            </div>
+          </div>	
+          {% unless section.settings.blog_layout == "blog_layo_none" %}
+          {% if section.settings.blog_layout == "blog_layo_right" %}
+          <div class="col-lg-4 col-xl-3">
+            {% include 'blog-sidebar' %}
+          </div>
+          {% endif %}
+          {% endunless %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endpaginate %}
+
+{% schema %}
+{
+  "name": "Blog page",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "bg_img",
+      "label": "Background image",
+      "info": "1920 x 550px recommended"
+    },
+    {
+      "type": "text",
+      "id": "blog_title",
+      "label": "Title",
+      "default": "Our blog"
+    },
+    {
+      "type": "select",
+      "id": "blog_layout",
+      "options": [
+        {
+          "value": "blog_layo_left",
+          "label": "Sidebar Left"
+        },
+        {
+          "value": "blog_layo_right",
+          "label": "Sidebar Right"
+        },
+        {
+          "value": "blog_layo_none",
+          "label": "No Sidebar"
+        }
+      ],
+      "label": "Select Layout",
+      "default": "blog_layo_left"
+    },
+    {
+      "type": "select",
+      "id": "blog_template",
+      "options": [
+        {
+          "value": "blog_temp_grid",
+          "label": "Blog Grid"
+        },
+        {
+          "value": "blog_temp_list",
+          "label": "Blog List"
+        }
+      ],
+      "label": "Select Template",
+      "default": "blog_temp_grid"
+    },
+    {
+      "type": "range",
+      "id": "blog_content_limit",
+      "label": "Limit blog content",
+      "min": 2,
+      "max": 50,
+      "step": 1,
+      "default": 10
+    },
+    {
+      "type": "header",
+      "content": "Blog posts"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_comments",
+      "label": "Show comments",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_datetime",
+      "label": "Show date?",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_desc",
+      "label": "Show description?",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Author"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_author",
+      "label": "Show author",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Sidebar Config"
+    },
+    {
+      "type": "header",
+      "content": "Widget Categories"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_widget_cate",
+      "label": "Enable?",
+      "default": true
+    },
+    {
+      "type": "link_list",
+      "id": "select_menu_cate",
+      "label": "Menu for Categories"
+    },
+    {
+      "type": "header",
+      "content": "Widget Related Post"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_widget_related",
+      "label": "Enable?",
+      "default": true
+    },
+    {
+      "type": "blog",
+      "id": "select_blog",
+      "label": "Select Blog"
+    },
+    {
+      "type": "text",
+      "id": "widget_related_title",
+      "label": "Title Widget",
+      "default": "Recent Posts"
+    },
+    {
+      "type": "range",
+      "id": "blogs_limit",
+      "label": "Limit blogs",
+      "min": 2,
+      "max": 50,
+      "step": 1,
+      "default": 5
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_datetime",
+      "label": "Enable datetime?",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Widget Product"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_widget_product",
+      "label": "Enable?",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "widget_product_title",
+      "label": "Title Widget",
+      "default": "Sale Product"
+    },
+    {
+      "type": "collection",
+      "id": "select_collection",
+      "label": "Select Collection"
+    },
+    {
+      "type": "range",
+      "id": "products_limit",
+      "label": "Limit products",
+      "min": 2,
+      "max": 50,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "header",
+      "content": "Tag"
+    },
+    {
+      "type": "text",
+      "id": "shop_by_tag_title",
+      "label": "Widget Title",
+      "default": "Blog Tags"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_widget_tag",
+      "label": "Enable?",
+      "default": true
+    }
+  ]
+}
+{% endschema %}

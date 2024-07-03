@@ -1,0 +1,143 @@
+<div data-section-id="{{ section.id }}" data-section-type="section-banner-v9" style="{% if section.settings.margin_top != blank %}margin-top: {{section.settings.margin_top}}px;{%endif%} {% if section.settings.margin_bottom != blank %}margin-bottom: {{section.settings.margin_bottom}}px;{% endif %} {% if section.settings.sections_layout == "dark" %}background: {{section.settings.sections_bg_color}};{% endif %}">
+  <div class="section-banner-v9">
+    <div class="container-fluid my-container">
+      <div class="banner-v9 d-flex">
+        <div class="banner-1 text-center">
+          <a href="{{section.settings.banner_url1}}" class="d-block">
+            {% if section.settings.banner_img1 == blank %}
+            <img src="//placehold.it/470x500" class="img-fluid w-100" alt="">
+            {% else %}
+            <img src="{{section.settings.banner_img1|img_url:'master'}}" class="img-fluid w-100" alt="Banner">
+            {% endif %}
+          </a>
+          <div class="banner-left-info">
+            <h5>{{section.settings.banner_sub_title}}</h5>
+            <h2>{{section.settings.banner_left_title}}</h2>
+          </div>
+        </div>
+        <div class="banner-2">
+          <a href="{{section.settings.banner_url2}}" class="d-block">
+            {% if section.settings.banner_img2 == blank %}
+            <img src="//placehold.it/1065x500" class="img-fluid w-100" alt="">
+            {% else %}
+            <img src="{{section.settings.banner_img2|img_url:'master'}}" class="img-fluid w-100" alt="Banner">
+            {% endif %} 
+          </a>
+          <div class="box-banner-info">
+            <div class="banner-right-info">
+              <h5><a href="{{section.settings.banner_url3}}">{{section.settings.banner_right_title}}</a></h5>
+              <p>{{section.settings.banner_right_content}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% schema %}
+{
+  "name": "Banner v9",
+  "class": "index-section",
+  "settings": [
+	{
+	  "type": "header",
+	  "content": "Banner left"
+	},
+    {
+      "type": "image_picker",
+      "id": "banner_img1",
+      "info": "470 x 500px recommended",
+      "label": "Banner Image"
+    },
+    {
+      "type": "url",
+      "id": "banner_url1",
+      "label": "Banner URL",
+      "default": "/collections/all"
+    },
+	{
+	  "type": "header",
+	  "content": "Banner left info"
+	},
+    {
+      "type": "text",
+      "id": "banner_sub_title",
+      "label": "Sub title",
+      "default": "Best Sellers"
+    },
+    {
+      "type": "text",
+      "id": "banner_left_title",
+      "label": "Title",
+      "default": "Adidas Shoes"
+    },
+	{
+	  "type": "header",
+	  "content": "Banner right"
+	},
+    {
+      "type": "image_picker",
+      "id": "banner_img2",
+      "info": "1065 x 500px recommended",
+      "label": "Banner Image"
+    },
+    {
+      "type": "url",
+      "id": "banner_url2",
+      "label": "Banner URL",
+      "default": "/collections/all"
+    },
+	{
+	  "type": "header",
+	  "content": "Banner right info"
+	},
+    {
+      "type": "text",
+      "id": "banner_right_title",
+      "label": "Title",
+      "default": "# Sports"
+    },
+    {
+      "type": "url",
+      "id": "banner_url3",
+      "label": "URL",
+      "default": "/collections/all"
+    },
+    {
+      "type": "text",
+      "id": "banner_right_content",
+      "label": "Content",
+      "default": "(135 Items)"
+    },
+    {
+      "type": "header",
+      "content": "Section Space"
+    },
+    {
+      "type": "text",
+      "id": "margin_top",
+      "label": "Margin Top",
+      "info": "Defined in pixels. Do not add the 'px' unit."
+    },
+    {
+      "type": "text",
+      "id": "margin_bottom",
+      "label": "Margin Bottom",
+      "info": "Defined in pixels. Do not add the 'px' unit."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Banner v9",
+      "category": "Home 5"
+    }
+  ]
+}
+{% endschema %}
+
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

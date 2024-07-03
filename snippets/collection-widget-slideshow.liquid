@@ -1,0 +1,17 @@
+<div class="widget widget-slideshow filter-tag">
+  <div class="js-slideshow-collection">
+    {% for block in section.blocks %}
+    <div class="position-relative">
+    {% if block.type == "slideshow" %}
+    <a href="{{block.settings.slider_sc_url}}" class="d-block">
+      {% if block.settings.slider_sidebar_collection != blank%}
+      <img src="{{block.settings.slider_sidebar_collection|img_url:'master'}}" alt="">
+      {% else %}
+      <img src="//placehold.it/413x485" class="img-fluid" alt="">
+      {% endif %}
+    </a>
+    {% endif %}
+    </div>
+    {% endfor %}
+  </div>
+</div>

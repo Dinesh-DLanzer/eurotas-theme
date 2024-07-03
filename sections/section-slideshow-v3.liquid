@@ -1,0 +1,274 @@
+<div data-section-id="{{ section.id }}" data-section-type="section-slideshow-v3" style="{% if section.settings.margin_top != blank %}margin-top: {{section.settings.margin_top}}px;{%endif%} {% if section.settings.margin_bottom != blank %}margin-bottom: {{section.settings.margin_bottom}}px;{% endif %}">
+  <div class="section-slideshow-v3">
+
+    <div class="slider-v3">
+      <div class="js-slideshow-v3 mb-0">
+        {% if section.blocks.size > 0 %}
+        {% for block in section.blocks %}
+        {% if block.type == "slideshow" %}
+        <div class="slideshow-item">
+          <div class="bg-slider">
+            {% if block.settings.bg_img != blank %}
+            <img src = "{{block.settings.bg_img|img_url:'master'}}" class="img-fluid w-100" alt="slideshow">
+            {% else %}
+            <img src ="//placehold.it/1920x980" class="img-fluid" alt="slideshow">
+            {% endif %}
+          </div>
+
+          <div class="slideshow-content">
+            {% if block.settings.block_content1 != blank %}
+            <p style="color: {{block.settings.color_slider}}" class="content1">{{block.settings.block_content1}}</p>
+            {% endif %}
+
+            {% if block.settings.block_content2 != blank %}
+            <h3 style="color: {{block.settings.color_slider}}" class="content2">{{block.settings.block_content2}}</h3>
+            {% endif %}
+
+            {% if block.settings.block_content3 != blank %}
+            <p style="color: {{block.settings.color_slider}}" class="content3">{{block.settings.block_content3}}</p>
+            {% endif %}
+
+            {% if block.settings.block_btn_name != blank %}
+            <a href="{{block.settings.block_url}}" class="btn-sv3-{{section.id}}-{{block.id}} button-name"><span>{{block.settings.block_btn_name}}</span></a>
+            {% endif %}
+
+          </div>
+          <div class="slider-img js-effect-v3">
+            <a href="{{block.settings.block_url}}" class="d-block">
+              {% if block.settings.block_img != blank %}
+              <img src="{{block.settings.block_img|img_url:'master'}}" class="img-fluid" alt="slideshow">
+              {% else %}
+              <img src="//placehold.it/783x535"  class="img-fluid" alt="slideshow">
+              {% endif %}
+            </a>
+          </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+        {% endif %}
+      </div>
+      <div class="social d-none d-lg-flex">
+        {% for block in section.blocks %}
+        {% if block.type == "social" %}
+        <a href="{{block.settings.social_url}}" class="d-block">
+          {{block.settings.social_name}}
+        </a>
+        {% endif %}
+        {% endfor %}
+      </div>
+      <div class="paginate d-none d-xl-block">
+        {% for block in section.blocks %}
+        {% if block.type == "slideshow" %}
+        {% if forloop.index < 10 %}
+        <span>0{{forloop.index}}</span>
+        {% else %}
+        <span>{{forloop.index}}</span>
+        {% endif %}
+        {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+
+  {% if section.blocks.size > 0 %}
+  {% for block in section.blocks %}
+  {% if block.type == "slideshow" %}
+  .section-slideshow-v3 .btn-sv3-{{section.id}}-{{block.id}}{
+    color: {{block.settings.color_btn_name}};
+    background: {{block.settings.bg_btn_name}};
+  }
+  .section-slideshow-v3 .btn-sv3-{{section.id}}-{{block.id}}:hover, .section-slideshow-v3 .btn-sv3-{{section.id}}-{{block.id}}:focus {
+    color: {{block.settings.color_btn_name_hover}};
+    background: {{block.settings.bg_btn_name_hover}};
+  }
+  {% endif %}
+  {% endfor %}
+  {% endif %}
+</style>
+{% schema %}
+{
+  "name": "Slideshow v3",
+  "class": "index-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Space"
+    },
+    {
+      "type": "text",
+      "id": "margin_top",
+      "label": "Margin Top",
+      "info": "Defined in pixels. Do not add the 'px' unit."
+    },
+    {
+      "type": "text",
+      "id": "margin_bottom",
+      "label": "Margin Bottom",
+      "info": "Defined in pixels. Do not add the 'px' unit."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "slideshow",
+      "name": "Slideshow",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "bg_img",
+          "label": "Background image",
+          "info": "1920 x 980px recommended"
+        },
+        {
+          "type": "image_picker",
+          "id": "block_img",
+          "label": "Image",
+          "info": "783 x 535px recommended"
+        },
+        {
+          "type": "url",
+          "id": "block_url",
+          "label": "URL",
+          "default": "/collections/all"
+        },
+        {
+          "type": "header",
+          "content": "Color slideshow"
+        },
+        {
+          "type": "color",
+          "id": "color_slider",
+          "label": "Color slider",
+          "default": "#222"
+        },
+        {
+          "type": "header",
+          "content": "Content"
+        },
+        {
+          "type": "text",
+          "id": "block_content1",
+          "label": "Content 1",
+          "default": "Women's Originals"
+        },
+        {
+          "type": "text",
+          "id": "block_content2",
+          "label": "Content 2",
+          "default": "Falcon Shoes."
+        },
+        {
+          "type": "textarea",
+          "id": "block_content3",
+          "label": "Content 3",
+          "default": "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. "
+        },
+        {
+          "type": "text",
+          "id": "block_btn_name",
+          "label": "Button name",
+          "default": "Shop now"
+        },
+        {
+          "type": "color",
+          "id": "bg_btn_name",
+          "label": "Background button name",
+          "default": "#222"
+        },
+        {
+          "type": "color",
+          "id": "color_btn_name",
+          "label": "Color button name",
+          "default": "#fff"
+        },
+        {
+          "type": "color",
+          "id": "color_btn_name_hover",
+          "label": "Color button name hover",
+          "default": "#222"
+        },
+        {
+          "type": "color",
+          "id": "bg_btn_name_hover",
+          "label": "Background button name hover",
+          "default": "#fff"
+        }
+      ]
+    },
+    {
+      "type": "social",
+      "name": "Social name",
+      "settings": [
+        {
+          "type": "url",
+          "id": "social_url",
+          "label": "Social url"
+        },
+        {
+          "type": "text",
+          "id": "social_name",
+          "label": "Social name"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Slideshow v3",
+      "category": "Home 3",
+      "blocks": [
+        {
+          "type": "slideshow",
+          "settings": {
+            "block_content1": "Women's Originals",
+            "block_content2": "Falcon Shoes.",
+            "block_content3": "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout."
+          }
+        },
+        {
+          "type": "slideshow",
+          "settings": {
+            "block_content1": "Women's Originals",
+            "block_content2": "Cropped Hoodie.",
+            "block_content3": "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout."
+          }
+        },
+        {
+          "type": "slideshow",
+          "settings": {
+            "block_content1": "Collection 2019",
+            "block_content2": "Falcon Dress",
+            "block_content3": "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout."
+          }
+        },
+        {
+          "type": "social",
+          "settings": {
+            "social_name": "Facebook"
+          }
+        },
+        {
+          "type": "social",
+          "settings": {
+            "social_name": "Twitter"
+          }
+        },
+        {
+          "type": "social",
+          "settings": {
+            "social_name": "Instagram"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}
